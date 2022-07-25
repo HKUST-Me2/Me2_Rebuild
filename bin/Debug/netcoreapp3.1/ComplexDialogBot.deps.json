@@ -8,14 +8,7 @@
       "TRACE",
       "DEBUG",
       "NETCOREAPP",
-      "NETCOREAPP3_1",
-      "NETCOREAPP1_0_OR_GREATER",
-      "NETCOREAPP1_1_OR_GREATER",
-      "NETCOREAPP2_0_OR_GREATER",
-      "NETCOREAPP2_1_OR_GREATER",
-      "NETCOREAPP2_2_OR_GREATER",
-      "NETCOREAPP3_0_OR_GREATER",
-      "NETCOREAPP3_1_OR_GREATER"
+      "NETCOREAPP3_1"
     ],
     "languageVersion": "latest",
     "platform": "",
@@ -32,6 +25,7 @@
       "ComplexDialogBot/1.0.0": {
         "dependencies": {
           "AdaptiveCards": "2.7.3",
+          "Azure.AI.Language.QuestionAnswering": "1.0.0",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.1",
           "Microsoft.Bot.Builder.Dialogs": "4.15.2",
           "Microsoft.Bot.Builder.Integration.AspNet.Core": "4.15.2",
@@ -238,7 +232,7 @@
           "System.Net.WebSockets.Client": "4.1.2.0",
           "System.Net.WebSockets": "4.1.2.0",
           "System.Numerics": "4.0.0.0",
-          "System.Numerics.Vectors": "4.1.6.0",
+          "System.Numerics.Vectors.Reference": "4.1.6.0",
           "System.ObjectModel.Reference": "4.1.2.0",
           "System.Reflection.DispatchProxy": "4.0.6.0",
           "System.Reflection.Reference": "4.2.2.0",
@@ -339,6 +333,41 @@
           "lib/netstandard2.0/AdaptiveCards.dll": {}
         }
       },
+      "Azure.AI.Language.QuestionAnswering/1.0.0": {
+        "dependencies": {
+          "Azure.Core": "1.20.0",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.AI.Language.QuestionAnswering.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.21.55202"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.AI.Language.QuestionAnswering.dll": {}
+        }
+      },
+      "Azure.Core/1.20.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
+          "System.Diagnostics.DiagnosticSource": "4.6.0",
+          "System.Memory.Data": "1.0.2",
+          "System.Numerics.Vectors": "4.5.0",
+          "System.Text.Encodings.Web": "4.7.2",
+          "System.Text.Json": "4.7.2",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/Azure.Core.dll": {
+            "assemblyVersion": "1.20.0.0",
+            "fileVersion": "1.2000.21.50405"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp2.1/Azure.Core.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.JsonPatch/3.1.1": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -383,6 +412,17 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Azure.Services.AppAuthentication.dll": {}
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.46214"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {}
         }
       },
       "Microsoft.Bot.Builder/4.15.2": {
@@ -1049,15 +1089,7 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Diagnostics.DiagnosticSource/4.3.0": {
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Diagnostics.Tracing": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Threading": "4.3.0"
-        }
-      },
+      "System.Diagnostics.DiagnosticSource/4.6.0": {},
       "System.Diagnostics.Process/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.1",
@@ -1256,12 +1288,27 @@
         }
       },
       "System.Memory/4.5.0": {},
+      "System.Memory.Data/1.0.2": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "4.7.2",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Memory.Data.dll": {
+            "assemblyVersion": "1.0.2.0",
+            "fileVersion": "1.0.221.20802"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/System.Memory.Data.dll": {}
+        }
+      },
       "System.Net.Http/4.3.4": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.1",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
-          "System.Diagnostics.DiagnosticSource": "4.3.0",
+          "System.Diagnostics.DiagnosticSource": "4.6.0",
           "System.Diagnostics.Tracing": "4.3.0",
           "System.Globalization": "4.3.0",
           "System.Globalization.Extensions": "4.3.0",
@@ -1304,6 +1351,7 @@
           "System.Threading.Tasks": "4.3.0"
         }
       },
+      "System.Numerics.Vectors/4.5.0": {},
       "System.ObjectModel/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -2961,7 +3009,7 @@
         },
         "compileOnly": true
       },
-      "System.Numerics.Vectors/4.1.6.0": {
+      "System.Numerics.Vectors.Reference/4.1.6.0": {
         "compile": {
           "System.Numerics.Vectors.dll": {}
         },
@@ -3438,6 +3486,20 @@
       "path": "adaptivecards/2.7.3",
       "hashPath": "adaptivecards.2.7.3.nupkg.sha512"
     },
+    "Azure.AI.Language.QuestionAnswering/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3Fmd7qvR319NBTY/pkuTLvDx6fX9fLTyRG6QZpe2y7BqqtudGYC8z+iGgARjaTugQV0TSjjObv4iJ+DMCOfKSw==",
+      "path": "azure.ai.language.questionanswering/1.0.0",
+      "hashPath": "azure.ai.language.questionanswering.1.0.0.nupkg.sha512"
+    },
+    "Azure.Core/1.20.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-q7xigZIBjLjSKJA/Y+VygmJ2iZGiEyNuicN5iRX9oJL7451SulZm/CQ7qd8YCeL5TgNCNYCIrTIqRaams95zHA==",
+      "path": "azure.core/1.20.0",
+      "hashPath": "azure.core.1.20.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.JsonPatch/3.1.1": {
       "type": "package",
       "serviceable": true,
@@ -3458,6 +3520,13 @@
       "sha512": "sha512-78AcjpxnhJDov7HJa4kPpZxpI0coZhS0tdA9ZLUSPExKz5KTgfozayBTLAXDuTuq0gLRzFyf85SvIkrtbB8KpA==",
       "path": "microsoft.azure.services.appauthentication/1.6.1",
       "hashPath": "microsoft.azure.services.appauthentication.1.6.1.nupkg.sha512"
+    },
+    "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-K63Y4hORbBcKLWH5wnKgzyn7TOfYzevIEwIedQHBIkmkEBA9SCqgvom+XTuE+fAFGvINGkhFItaZ2dvMGdT5iw==",
+      "path": "microsoft.bcl.asyncinterfaces/1.0.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.1.0.0.nupkg.sha512"
     },
     "Microsoft.Bot.Builder/4.15.2": {
       "type": "package",
@@ -3956,12 +4025,12 @@
       "path": "system.diagnostics.debug/4.3.0",
       "hashPath": "system.diagnostics.debug.4.3.0.nupkg.sha512"
     },
-    "System.Diagnostics.DiagnosticSource/4.3.0": {
+    "System.Diagnostics.DiagnosticSource/4.6.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-tD6kosZnTAGdrEa0tZSuFyunMbt/5KYDnHdndJYGqZoNy00XVXyACd5d6KnE1YgYv3ne2CjtAfNXo/fwEhnKUA==",
-      "path": "system.diagnostics.diagnosticsource/4.3.0",
-      "hashPath": "system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512"
+      "sha512": "sha512-mbBgoR0rRfl2uimsZ2avZY8g7Xnh1Mza0rJZLPcxqiMWlkGukjmRkuMJ/er+AhQuiRIh80CR/Hpeztr80seV5g==",
+      "path": "system.diagnostics.diagnosticsource/4.6.0",
+      "hashPath": "system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512"
     },
     "System.Diagnostics.Process/4.3.0": {
       "type": "package",
@@ -4082,6 +4151,13 @@
       "path": "system.memory/4.5.0",
       "hashPath": "system.memory.4.5.0.nupkg.sha512"
     },
+    "System.Memory.Data/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JGkzeqgBsiZwKJZ1IxPNsDFZDhUvuEdX8L8BDC8N3KOj+6zMcNU28CNN59TpZE/VJYy9cP+5M+sbxtWJx3/xtw==",
+      "path": "system.memory.data/1.0.2",
+      "hashPath": "system.memory.data.1.0.2.nupkg.sha512"
+    },
     "System.Net.Http/4.3.4": {
       "type": "package",
       "serviceable": true,
@@ -4102,6 +4178,13 @@
       "sha512": "sha512-m6icV6TqQOAdgt5N/9I5KNpjom/5NFtkmGseEH+AK/hny8XrytLH3+b5M8zL/Ycg3fhIocFpUMyl/wpFnVRvdw==",
       "path": "system.net.sockets/4.3.0",
       "hashPath": "system.net.sockets.4.3.0.nupkg.sha512"
+    },
+    "System.Numerics.Vectors/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
+      "path": "system.numerics.vectors/4.5.0",
+      "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
     },
     "System.ObjectModel/4.3.0": {
       "type": "package",
@@ -5428,7 +5511,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Numerics.Vectors/4.1.6.0": {
+    "System.Numerics.Vectors.Reference/4.1.6.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
