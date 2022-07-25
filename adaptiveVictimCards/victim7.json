@@ -1,0 +1,50 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Don't take action",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the benefits?",
+            "id": "textToToggle2",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- Limits who knows about what happened.\r - Gives you time to figure out what you want to do.\r - Allows you to process trauma in your own time.",
+            "isVisible": false,
+            "id": "textToToggle3",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the potential risks?",
+            "isVisible": false,
+            "id": "textToToggle4",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- You may be risking your own safety - especially if this person is still a threat to you.\r - You may be going without help from your school that you are legally entitled to - like changes to your schedule, dorm location, or a no contact order to protect you from the perpetrator and allow you time to process trauma and continue your education. If your school does not know, they can’t help you.\r - You may worry that it could happen to someone else.\r - You may not be able to access supportive services or therapy.\r - Some legal options are time sensitive, and you might run out of time depending on how long you wait.\r - You may be risking your health if you have hidden injuries or want to explore options for unwanted pregnancy or STDs.",
+            "isVisible": false,
+            "id": "textToToggle5",
+            "wrap": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.ToggleVisibility",
+            "title": "Toggle",
+            "targetElements": [
+                "textToToggle3",
+                "textToToggle4",
+                "textToToggle5"
+            ]
+        }
+    ]
+}

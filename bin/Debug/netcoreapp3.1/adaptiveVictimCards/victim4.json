@@ -1,0 +1,18 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Get help from the Equal Opportunity Committee",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Contact the EOC within 12 months of the incident and lodge a complaint in writing by post or fax, or by using the online form on the EOC website.", 
+            "isVisible": true,
+            "wrap": true
+        }
+    ]
+}

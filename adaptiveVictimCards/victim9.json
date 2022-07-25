@@ -1,0 +1,50 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Confront your perpetrator",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the benefits?",
+            "id": "textToToggle2",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- You can get out what you want to say - which potentially can provide emotional relief.\r - Depending on your relationship and the circumstances, they could be receptive to the harm they’ve caused and the need to change their ways",
+            "isVisible": false,
+            "id": "textToToggle3",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the potential risks?",
+            "isVisible": false,
+            "id": "textToToggle4",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- Emotional risk - you have no idea what the person will say or what they will do with the information.\r - Safety risk - if you suffered violence or do not feel safe around this person, confrontation, even over email or text, can aggravate a dangerous situation.\r - What you say to them may be used against you if you do choose to tell your school or the police, etc.\r - This might be encouraging for some perpetrators who desire to cause harm and may enjoy hearing that they have done so..",
+            "isVisible": false,
+            "id": "textToToggle5",
+            "wrap": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.ToggleVisibility",
+            "title": "Toggle",
+            "targetElements": [
+                "textToToggle3",
+                "textToToggle4",
+                "textToToggle5"
+            ]
+        }
+    ]
+}

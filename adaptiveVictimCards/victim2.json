@@ -1,0 +1,58 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Jot down what happened",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Record the details of the incident as soon as you can, including the date, time and place, the events that took place (e.g. what the harasser did, how you reacted), and whether there were other people around. These notes may come in handy when you lodge a complaint, locate witnesses or decide to take legal action.", 
+            "isVisible": true,
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the benefits?",
+            "isVisible": false,
+            "id": "textToToggle2",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- Writing can help you make sure you don’t forget certain details.\r - Writing can be a way to process trauma.\r - It can help you share what happened later with an attorney, therapist, friend, or your school.\r - It can be a helpful starting point for a declaration or other legal statement, including a Victim Impact Statement, Restraining Orders, or a Title IX closing or opening statement. \r - It can help you report to police, if you decide to move forward with a criminal complaint.",
+            "isVisible": false,
+            "id": "textToToggle3",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "What are the potential risks?",
+            "isVisible": false,
+            "id": "textToToggle4",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "- It may get into the wrong hands - someone you don’t trust may see it.\r - You may risk weakening a legal argument down the road.\r - If you admit to alcohol or drug use in writing, it could potentially be used against you.\r - If you decided to proceed with a legal action, your writing could be subpoenaed (and ultimately viewed by the perpetrator and their attorney).\r - It could be triggering if you are going back and forth and challenging your own versions. Remember that the point of writing down the incident is to get it out of your memory and not to question or relive it.",
+            "isVisible": false,
+            "id": "textToToggle5",
+            "wrap": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.ToggleVisibility",
+            "title": "Toggle",
+            "targetElements": [
+                "textToToggle2",
+                "textToToggle3",
+                "textToToggle4",
+                "textToToggle5"
+            ]
+        }
+    ]
+}

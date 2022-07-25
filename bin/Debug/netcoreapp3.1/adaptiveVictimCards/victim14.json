@@ -1,0 +1,18 @@
+
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Meeting with counsellors",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "- Counseling and Wellness Center: https://counsel.hkust.edu.hk/\r - Make appointment: https://counsel.hkust.edu.hk/make_an_appointment.php\r - Psychological Assessment: https://counsel.hkust.edu.hk/page.php?section=Resources&subsection=20&anchor=selfassessment",
+            "wrap": true
+        }
+    ]
+}
