@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\virgi\\Downloads\\New folder\\Combined\\ComplexDialogBot.csproj",
+  "FilePath": "c:\\Users\\virgi\\Downloads\\ToDoBot-master\\ToDoBot.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14399,7 +14399,7 @@
     ],
     "CSharpLanguageVersion": 1000
   },
-  "RootNamespace": "ComplexDialogBot",
+  "RootNamespace": "ToDoBot",
   "Documents": [],
   "SerializationFormat": "0.2"
 }
