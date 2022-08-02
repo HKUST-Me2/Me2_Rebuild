@@ -171,8 +171,8 @@ namespace Microsoft.BotBuilderSamples
 
     private string MiniQuizAnswerGeneration()
     {
-            randomized %= 6;
-            switch (randomized) 
+            //randomized %= 6;
+            switch ((randomized-1)%6) 
             {
                 case 0:
                     if (Globals.DEBUG_MODE == 1)
@@ -507,6 +507,10 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
             // Sending response of Thanks"
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizEnding), cancellationToken);
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+
+
             return await stepContext.EndDialogAsync();
         }
 

@@ -1,29 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/opt/me2/Me2_Rebuild/ComplexDialogBot.csproj": {}
+    "C:\\Users\\yoyom\\Downloads\\ME2NEW\\Combined\\ComplexDialogBot.csproj": {}
   },
   "projects": {
-    "/opt/me2/Me2_Rebuild/ComplexDialogBot.csproj": {
+    "C:\\Users\\yoyom\\Downloads\\ME2NEW\\Combined\\ComplexDialogBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/opt/me2/Me2_Rebuild/ComplexDialogBot.csproj",
+        "projectUniqueName": "C:\\Users\\yoyom\\Downloads\\ME2NEW\\Combined\\ComplexDialogBot.csproj",
         "projectName": "ComplexDialogBot",
-        "projectPath": "/opt/me2/Me2_Rebuild/ComplexDialogBot.csproj",
-        "packagesPath": "/home/ncsva/.nuget/packages/",
-        "outputPath": "/opt/me2/Me2_Rebuild/obj/",
+        "projectPath": "C:\\Users\\yoyom\\Downloads\\ME2NEW\\Combined\\ComplexDialogBot.csproj",
+        "packagesPath": "C:\\Users\\yoyom\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yoyom\\Downloads\\ME2NEW\\Combined\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/ncsva/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\yoyom\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -35,14 +38,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AdaptiveCards": {
               "target": "Package",
               "version": "[2.7.3, )"
-            },
-            "Azure.AI.Language.QuestionAnswering": {
-              "target": "Package",
-              "version": "[1.0.0, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
@@ -79,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.421/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

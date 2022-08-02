@@ -43,6 +43,7 @@ namespace Microsoft.BotBuilderSamples
                 Prompt = MessageFactory.Text("What kind of stories do you want to know? Note that these stories are all from the research of Equal Opportunity Committee."),
                 RetryPrompt = MessageFactory.Text("That was not a valid choice."),
                 Choices = GetChoices(),
+                Style = ListStyle.HeroCard,
             };
 
             // Prompt the user with the configured PromptOptions.
@@ -53,8 +54,9 @@ namespace Microsoft.BotBuilderSamples
         // This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
         private async Task<DialogTurnResult> ShowCardStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            // Sending an instruction of scrolling cards.
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(" **Try srolling the cards if you can, so as to show all the stories** "), cancellationToken);
 
-            
             // Cards are sent as Attachments in the Bot Framework.
             // So we need to create a list of attachments for the reply activity.
             var attachments = new List<Attachment>();
@@ -139,7 +141,7 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Type anything to see another card."), cancellationToken);
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
             return await stepContext.EndDialogAsync();
         }

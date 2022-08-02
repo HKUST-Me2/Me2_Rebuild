@@ -37,6 +37,7 @@ namespace Microsoft.BotBuilderSamples
                 Prompt = MessageFactory.Text(""),
                 RetryPrompt = MessageFactory.Text("Please choose an option from the list."),
                 Choices = GetChoices2(),
+                Style = ListStyle.HeroCard,
             };
 
             // Prompt the user for a choice.
@@ -75,6 +76,9 @@ namespace Microsoft.BotBuilderSamples
                 default:
                     break;
             }
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+
             return await stepContext.EndDialogAsync(); 
         }
 

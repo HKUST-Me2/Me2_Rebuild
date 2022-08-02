@@ -38,12 +38,17 @@ namespace Microsoft.BotBuilderSamples
             MessageFactory.Text($"#ID:4-2-1"), cancellationToken);}
 
             await stepContext.Context.SendActivityAsync(
-            MessageFactory.Text($"“Any person of any sex, gender, age, and race can be a victim of sexual harassment. Sexual harassment creates a hostile environment and is illegal. It includes any unwanted verbal or physical sexual behaviour. This can range from sexual comments about a person’s clothing, anatomy, or looks, to very serious acts that qualify as assault or rape. Sexual harassment is about the impact of the behaviour on you, and the severity and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour.”"),cancellationToken);
+            MessageFactory.Text($"Any person of any sex, gender, age, and race can be a victim of sexual harassment. " +
+                $"Sexual harassment creates a hostile environment and is illegal. It includes any unwanted verbal or physical " +
+                $"sexual behaviour. This can range from sexual comments about a person’s clothing, anatomy, or looks, to very serious " +
+                $"acts that qualify as assault or rape. Sexual harassment is about the impact of the behaviour on you, and the severity " +
+                $"and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour."),cancellationToken);
             var promptOptions = new PromptOptions
             {
                 Prompt = MessageFactory.Text(Globals.prompt_text),
                 RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
                 Choices = GetChoices3(),
+                Style = ListStyle.HeroCard,
             };
 
             // Prompt the user for a choice.

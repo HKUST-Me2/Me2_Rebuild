@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-
 static class Globals
 {
     // global int

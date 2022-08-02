@@ -50,7 +50,9 @@ namespace Microsoft.BotBuilderSamples
             
             await stepContext.Context.SendActivityAsync(
             MessageFactory.Text("If you encounter such situation, please SAY NO directly. Make it clear to the harasser that you do not welcome the behaviour and it must stop, for example by yelling at him/her to stop, pushing him/her away, or sending a text message to voice your objection to such behaviour"), cancellationToken);
-            
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+
             return await stepContext.EndDialogAsync();
         }
 

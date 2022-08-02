@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
                 " We chatted briefly then he asked for a video call. The screen was dark, though " +
                 "the audio was normal. He said it was technical problems. A few minutes later, he suddenly said" +
                 ", You are so beautiful.” Then I could see him on screen. He was masturbating and his lower " +
-                "part was naked. I was shocked and offended, and immediately turned off Skype and blocked him." +
+                "part was naked. I was shocked and offended, and immediately turned off Skype and blocked him. " +
                 "At that very moment, I was in the library, I was terrified and worried that it might have been " +
                 "seen by others."
             };

@@ -47,6 +47,7 @@ namespace Microsoft.BotBuilderSamples
                 Prompt = MessageFactory.Text(Globals.prompt_text),
                 RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
                 Choices = GetChoices(),
+                Style = ListStyle.HeroCard,
             };
 
             // Prompt the user with the configured PromptOptions.

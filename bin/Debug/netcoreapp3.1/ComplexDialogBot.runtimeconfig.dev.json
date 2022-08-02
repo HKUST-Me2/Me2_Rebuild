@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/home/ncsva/.dotnet/store/|arch|/|tfm|",
-      "/home/ncsva/.nuget/packages"
+      "C:\\Users\\yoyom\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\yoyom\\.nuget\\packages"
     ]
   }
 }
