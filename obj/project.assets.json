@@ -7453,19 +7453,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\samso\\.nuget\\packages\\": {}
+    "/home/ncsva/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\samso\\OneDrive\\Documents\\GitHub\\Me2_Rebuild\\ComplexDialogBot.csproj",
+      "projectUniqueName": "/opt/tmp/Me2_Rebuild/ComplexDialogBot.csproj",
       "projectName": "ComplexDialogBot",
-      "projectPath": "C:\\Users\\samso\\OneDrive\\Documents\\GitHub\\Me2_Rebuild\\ComplexDialogBot.csproj",
-      "packagesPath": "C:\\Users\\samso\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\samso\\OneDrive\\Documents\\GitHub\\Me2_Rebuild\\obj\\",
+      "projectPath": "/opt/tmp/Me2_Rebuild/ComplexDialogBot.csproj",
+      "packagesPath": "/home/ncsva/.nuget/packages/",
+      "outputPath": "/opt/tmp/Me2_Rebuild/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\samso\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/ncsva/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -7475,7 +7479,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -7487,7 +7490,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "AdaptiveCards": {
             "target": "Package",
@@ -7532,7 +7534,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.421/RuntimeIdentifierGraph.json"
       }
     }
   }
