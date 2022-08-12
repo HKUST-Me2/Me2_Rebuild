@@ -12,7 +12,8 @@ namespace Microsoft.BotBuilderSamples
     {
         public KnowMoreSexHarDialog()
             : base(nameof(KnowMoreSexHarDialog))
-        {
+        {   
+            AddDialog(new InputDialog());
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new SexHar_OtherStoryDialog());
             AddDialog(new SexHar_VictimDialog());
@@ -62,7 +63,8 @@ namespace Microsoft.BotBuilderSamples
             switch (((FoundChoice)stepContext.Result).Value)
             {
                 case "I want to know others' stories":
-                    return await stepContext.BeginDialogAsync(nameof(SexHar_OtherStoryDialog), null, cancellationToken);
+                    return await stepContext.BeginDialogAsync(nameof(InputDialog), null, cancellationToken);
+                    //return await stepContext.BeginDialogAsync(nameof(SexHar_OtherStoryDialog), null, cancellationToken);
                 case "Can you give me some examples of sexual harassment?":
                     return await stepContext.BeginDialogAsync(nameof(SexHar_ExampleDialog), null, cancellationToken);
                 case "What can I do if I think I'm sexually harassed?":
