@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         private async Task<DialogTurnResult> DocumentationChooseAction(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {  
+        {
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("Please choose the action:"),
@@ -37,11 +37,11 @@ namespace Microsoft.BotBuilderSamples
                 Style = ListStyle.HeroCard,
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);  
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
         }
 
         private async Task<DialogTurnResult> DocumentationGetAction(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {       
+        {
 
             switch (((FoundChoice)stepContext.Result).Value)
             {
@@ -50,10 +50,10 @@ namespace Microsoft.BotBuilderSamples
                 case "Access Case":
                     return await stepContext.BeginDialogAsync(nameof(AccessCaseDialog), null, cancellationToken);
                 default:
-                    return await stepContext.EndDialogAsync(); 
-            }          
+                    return await stepContext.EndDialogAsync();
+            }
         }
-        
+
         private IList<Choice> DocumentationGetChoices()
         {
             var cardOptions = new List<Choice>()
@@ -66,6 +66,6 @@ namespace Microsoft.BotBuilderSamples
         }
 
 
-        
+
     }
 }

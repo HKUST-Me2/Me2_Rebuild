@@ -85,6 +85,7 @@ namespace Microsoft.BotBuilderSamples
             reply.Attachments.Add(Cards.Victim12());
             reply.Attachments.Add(Cards.Victim13());
             reply.Attachments.Add(Cards.Victim14());
+           // reply.Attachments.Add(Cards.DOCMC());
 
             await turnContext.Context.SendActivityAsync(MessageFactory.Text(" **Try srolling the cards if you can, so as to show all the stories** "), cancellationToken);
 

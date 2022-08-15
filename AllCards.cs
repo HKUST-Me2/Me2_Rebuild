@@ -711,5 +711,22 @@ namespace Microsoft.BotBuilderSamples
             };
             return heroCard;
         }
+
+        public static Attachment DOCMC()
+        {
+            return new Attachment
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = AdaptiveCard.FromJson(File.ReadAllText(@".\adaptiveVictimCards\DocumentationMC.json")).Card
+            };
+        }
+        public static Attachment DocLongText()
+        {
+            return new Attachment
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = AdaptiveCard.FromJson(File.ReadAllText(@".\OtherAdaptiveCards\DocumentationLongText.json")).Card
+            };
+        }
     }
 }

@@ -43,9 +43,9 @@ namespace Microsoft.BotBuilderSamples
         {
             await stepContext.Context.SendActivityAsync(
                 MessageFactory.Text($"The ID you input is {stepContext.Result}"), cancellationToken);
-           
+
             //TODO verify the ID from DB 
-            
+
             return await stepContext.EndDialogAsync();
         }
 

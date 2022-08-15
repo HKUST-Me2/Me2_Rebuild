@@ -22,10 +22,12 @@ namespace Microsoft.BotBuilderSamples
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ChoicePrompt(nameof(ConfirmPrompt)));
+            AddDialog(new InputDialog());
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 RecordCaseGetChoice,
                 RecordCaseExplain,
+                GotoInput,
             }));
 
             // The initial child Dialog to run.
@@ -100,6 +102,10 @@ namespace Microsoft.BotBuilderSamples
             }         
         }
 
+        private async Task<DialogTurnResult> GotoInput(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            return await stepContext.BeginDialogAsync(nameof(InputDialog), null, cancellationToken);
+        }
         private IList<Choice> RecordCaseGetChoice()
         {
             var cardOptions = new List<Choice>()

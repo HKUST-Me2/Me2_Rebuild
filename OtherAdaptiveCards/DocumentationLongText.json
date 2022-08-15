@@ -1,0 +1,76 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Jot down what happened",
+            "wrap": true,
+            "size": "large"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Electronic Evidence", 
+            "isVisible": true,
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": " - Emails, Photos, Videos \r - Text messages \r - Screenshots \r - Social media interactions (Twitter, Facebook, Snapchat, Instagram, etc.)",
+            "isVisible": false,
+            "id": "textToToggle2",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Preserving Electronic Evidence",
+            "isVisible": true,
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": " - Save copies of electronic evidence on a USB drive that only you have access to, including screenshots of any relevant electronic communication or interaction. \r - Don’t delete any messages, even if you have a screenshot. \r - Take screenshots in a way that they show the flow of the conversation (repeating the last line on the top of the next screenshot). ",
+            "isVisible": false,
+            "id": "textToToggle3",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Physical Evidence",
+            "isVisible": true,
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": " - Clothing \r - Bedsheets \r - Condoms \r - Any evidence collected as part of forensic exam (“rape kit”) ",
+            "isVisible": false,
+            "id": "textToToggle4",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Preserving Physical Evidence:",
+            "isVisible": true,
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": " - Place each item of potential physical evidence in its own paper bag (plastic bags can eliminate DNA) and store it someplace only you can access (i.e. out of common spaces, away from roommates)",
+            "isVisible": false,
+            "id": "textToToggle5",
+            "wrap": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.ToggleVisibility",
+            "title": "Toggle",
+            "targetElements": [
+                "textToToggle2",
+                "textToToggle3",
+                "textToToggle4",
+                "textToToggle5"
+            ]
+        }
+    ]
+}
