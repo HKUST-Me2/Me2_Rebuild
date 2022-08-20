@@ -4,17 +4,33 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using Microsoft.BotBuilderSamples.Dialogs.Operations;
+using Microsoft.BotBuilderSamples.Utilities;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class DocumentationDialog : ComponentDialog
     {
-        public DocumentationDialog() :
-            base(nameof(DocumentationDialog))
+        private readonly ToDoLUISRecognizer _luisRecognizer;
+        protected readonly IConfiguration Configuration;
+        private readonly CosmosDBClient _cosmosDBClient;
+        private readonly string UserValidationDialogID = "UserValidationDlg";
+        public DocumentationDialog(ToDoLUISRecognizer luisRecognizer, IConfiguration configuration, CosmosDBClient cosmosDBClient)
+             : base(nameof(DocumentationDialog))
         {
+            _luisRecognizer = luisRecognizer;
+            Configuration = configuration;
+            _cosmosDBClient = cosmosDBClient;
+
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-            AddDialog(new AccessCaseDialog());
+            AddDialog(new AccessCaseDialog(_luisRecognizer, Configuration, _cosmosDBClient));
             AddDialog(new RecordCaseDialog());
 
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog),
