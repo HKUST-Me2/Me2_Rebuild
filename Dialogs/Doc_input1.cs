@@ -10,7 +10,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples
+using AdaptiveCards;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.BotBuilderSamples.Utilities;
+
+namespace Microsoft.BotBuilderSamples.Utilities
 {
     public class data
         {
@@ -42,10 +47,19 @@ namespace Microsoft.BotBuilderSamples
     {
         data MyData = new data();
 
-        public InputDialog()
+         private readonly ToDoLUISRecognizer _luisRecognizer;
+        protected readonly ILogger Logger;
+        protected readonly IConfiguration Configuration;
+        private readonly CosmosDBClient _cosmosDBClient;
+        private readonly string UserValidationDialogID = "UserValidationDlg";
+
+        public InputDialog(ToDoLUISRecognizer luisRecognizer, IConfiguration configuration, CosmosDBClient cosmosDBClient)
             : base(nameof(InputDialog))
         {
-
+            _luisRecognizer = luisRecognizer;
+            Configuration = configuration;
+            _cosmosDBClient = cosmosDBClient;
+   
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new TextPrompt(nameof(TextPrompt)));
@@ -83,6 +97,10 @@ namespace Microsoft.BotBuilderSamples
                 Documentation44,
                 Documentation46,
                 UploadAttachmentAsync,
+                haveIDStepAsync,
+                UserExistsStepAsync,
+                // saveStepAsync,
+                SummaryStepAsync
             }));
 
             // The initial child Dialog to run.
@@ -555,8 +573,80 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MyData.nameOfOffender), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MyData.infoOfOffender), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MyData.infoOfThesePeople), cancellationToken);
-            return await stepContext.EndDialogAsync();
+            // return await stepContext.EndDialogAsync();
+            return await stepContext.NextAsync(null, cancellationToken);
             // https://stackoverflow.com/questions/58336861/accepting-attachments-on-a-waterfall-dialog-and-storing-them-locally-in-bot-fram
+        }
+
+        private async Task<DialogTurnResult> haveIDStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var promptOptions = new PromptOptions
+            {
+                Prompt = MessageFactory.Text($"Already have case ID?"),
+                RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
+                Choices = new List<Choice>()
+                            {
+                                new Choice() { Value = "Yes"},
+                                new Choice() { Value = "No"},
+                            },
+                Style = ListStyle.HeroCard,
+            };
+
+            return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+        }
+        private async Task<DialogTurnResult> UserExistsStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // string userType = (string)stepContext.Values["UserType"];
+            string userId = null;
+
+            if (((FoundChoice)stepContext.Result).Value == "Yes"){
+                //save data? or not
+                await stepContext.Context.SendActivityAsync("OK, the case will remain anonymous.");
+                return await stepContext.NextAsync(null, cancellationToken);
+            }
+            else{
+                 do
+                    {
+                        userId = Repository.RandomString(7);
+                    } while (await _cosmosDBClient.CheckNewUserIdAsync(userId, Configuration["CosmosEndPointURI"], Configuration["CosmosPrimaryKey"], Configuration["CosmosDatabaseId"], Configuration["CosmosContainerID"], Configuration["CosmosPartitionKey"]));
+
+                    User.UserID = userId;
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your Case ID is: " + User.UserID), cancellationToken);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please make a record of the Case ID so that you can come back and access the case report later when needed."), cancellationToken);
+                    return await stepContext.NextAsync(null, cancellationToken);
+            }
+        }
+
+        //  private async Task<DialogTurnResult> saveStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        // {
+        //     var userDetails = (User)stepContext.Options;
+        //     stepContext.Values["Task"] = MyData.Date;
+        //     userDetails.TasksList.Add((string)stepContext.Values["Task"]);
+
+        //     return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions
+        //     {
+        //         Prompt = MessageFactory.Text("Would you like to Add more tasks?")
+        //     }, cancellationToken);
+        // }
+
+          private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
+            // var userDetails = (User)stepContext.Result;
+            
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please wait while I add your tasks to the database..."), cancellationToken);
+            // for (int i = 0; i < userDetails.TasksList.Count; i++)
+            // {
+            //     if (await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, userDetails.TasksList[i]) == -1)
+            //     {
+            //         await stepContext.Context.SendActivityAsync(MessageFactory.Text("The Task '" + userDetails.TasksList[i] + "' already exists"), cancellationToken);
+                    
+            //     }
+                
+            // }
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Add Task operation completed. Thank you."), cancellationToken);
+
+            return await stepContext.EndDialogAsync();
         }
 
         private IList<Choice> YearGetChoice()

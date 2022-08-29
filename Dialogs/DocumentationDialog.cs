@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new AccessCaseDialog(_luisRecognizer, Configuration, _cosmosDBClient));
-            AddDialog(new RecordCaseDialog());
+            AddDialog(new RecordCaseDialog(_luisRecognizer, Configuration, _cosmosDBClient));
 
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog),
                 new WaterfallStep[] {

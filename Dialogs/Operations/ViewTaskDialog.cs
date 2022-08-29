@@ -39,10 +39,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs.Operations
                 return await stepContext.EndDialogAsync(null, cancellationToken);
             }
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please find the below tasks you provided."), cancellationToken);
-            for (int i = 0; i < toDoTasks.Count; i++)
-            {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(toDoTasks[i].Task), cancellationToken);
-            }
+            // for (int i = 0; i < toDoTasks.Count; i++)
+            // {
+            //     await stepContext.Context.SendActivityAsync(MessageFactory.Text(toDoTasks[i].Task), cancellationToken);
+            // }
 
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }

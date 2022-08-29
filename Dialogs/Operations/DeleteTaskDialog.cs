@@ -45,10 +45,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs.Operations
             }
 
             List<string> taskList = new List<string>();
-            for (int i = 0; i < toDoTasks.Count; i++)
-            {
-                taskList.Add(toDoTasks[i].Task);
-            }
+            // for (int i = 0; i < toDoTasks.Count; i++)
+            // {
+            //     taskList.Add(toDoTasks[i].Task);
+            // }
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please select the tasks you want to delete."), cancellationToken);
 

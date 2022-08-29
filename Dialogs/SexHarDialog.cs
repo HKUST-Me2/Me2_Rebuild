@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
         public KnowMoreSexHarDialog()
             : base(nameof(KnowMoreSexHarDialog))
         {   
-            AddDialog(new InputDialog());
+            // AddDialog(new InputDialog());
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new SexHar_OtherStoryDialog());
             AddDialog(new SexHar_VictimDialog());

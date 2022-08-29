@@ -10,19 +10,32 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 
+using AdaptiveCards;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.BotBuilderSamples.Utilities;
+
 namespace Microsoft.BotBuilderSamples
 {
     public class RecordCaseDialog : ComponentDialog
     {
+        private readonly ToDoLUISRecognizer _luisRecognizer;
+        protected readonly ILogger Logger;
+        protected readonly IConfiguration Configuration;
+        private readonly CosmosDBClient _cosmosDBClient;
+        private readonly string UserValidationDialogID = "UserValidationDlg";
 
-        public RecordCaseDialog()
+        public RecordCaseDialog(ToDoLUISRecognizer luisRecognizer, IConfiguration configuration, CosmosDBClient cosmosDBClient)
             : base(nameof(RecordCaseDialog))
         {
+            _luisRecognizer = luisRecognizer;
+            Configuration = configuration;
+            _cosmosDBClient = cosmosDBClient;
 
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new InputDialog(_luisRecognizer, Configuration, _cosmosDBClient));
             AddDialog(new ChoicePrompt(nameof(ConfirmPrompt)));
-            AddDialog(new InputDialog());
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 RecordCaseGetChoice,

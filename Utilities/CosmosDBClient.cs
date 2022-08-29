@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples.Utilities
 {
+    
     public class CosmosDBClient
     {
         // The Cosmos client instance
@@ -90,12 +92,34 @@ namespace Microsoft.BotBuilderSamples.Utilities
             
         }
 
-        public async Task<int> AddItemsToContainerAsync(string userId, string task)
+        public async Task<int> AddItemsToContainerAsync(string userId, data MyData)
         {
             ToDoTask todotask = new ToDoTask
             {
                 Id = userId,
-                Task = task,
+                Task = userId,
+                Year = MyData.Year,
+                Season = MyData.Season,
+                Date = MyData.Date,
+                Time = MyData.Time,
+                DateAdditional = MyData.DateAdditional,
+                Place = MyData.Place,
+                PlaceAdditional = MyData.PlaceAdditional,
+                Eyewitness = MyData.Eyewitness,
+                Interact = MyData.Interact,
+                EyewitnessAdditional = MyData.EyewitnessAdditional,
+                ToldOthers = MyData.ToldOthers,
+                ToldOthersAdditional = MyData.ToldOthersAdditional,
+                Offender = MyData.Offender,
+                multiplechoice = MyData.multiplechoice,
+                remember = MyData.remember,
+                numOfOffender = MyData.numOfOffender,
+                nameOfOffender = MyData.nameOfOffender,
+                infoOfOffender = MyData.infoOfOffender,
+                infoOfThesePeople = MyData.infoOfThesePeople,
+                attachemntDoc = MyData.attachmentDoc,
+
+
             };
 
             try
@@ -115,7 +139,6 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
                 return 1;
             }
-
             
         }
         // </AddItemsToContainerAsync>
