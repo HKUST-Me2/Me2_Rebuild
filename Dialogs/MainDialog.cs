@@ -49,23 +49,47 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            
+
+
             // Create the PromptOptions which contain the prompt and re-prompt messages.
             // PromptOptions also contains the list of choices available to the user.
-            if (Globals.DEBUG_MODE==1) {await stepContext.Context.SendActivityAsync(
-                MessageFactory.Text($"#ID=4"),
-                cancellationToken);}
-
-            var options = new PromptOptions()
+            if (Globals.DEBUG_MODE == 1)
             {
-                Prompt = MessageFactory.Text(Globals.prompt_text),
-                RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
-                Choices = GetChoices(),
-                Style = ListStyle.HeroCard,
-            };
+                await stepContext.Context.SendActivityAsync(
+                MessageFactory.Text($"#ID=4"),
+                cancellationToken);
+            }
+
+            if (Globals.CameBack)
+            {
+                // user came back
+                var options = new PromptOptions()
+                {
+                    Prompt = MessageFactory.Text("Is there anything else that I can help you?"),
+                    RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
+                    Choices = GetChoices(),
+                    Style = ListStyle.HeroCard,
+                };
+                // Prompt the user with the configured PromptOptions.
+                return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+            }
+            else
+            {
+                // it's user's first time to see this dialog
+                var options = new PromptOptions()
+                {
+                    Prompt = MessageFactory.Text(Globals.prompt_text),
+                    RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
+                    Choices = GetChoices(),
+                    Style = ListStyle.HeroCard,
+                };
+                Globals.CameBack = true;
+                // Prompt the user with the configured PromptOptions.
+                return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+            }
 
             // Prompt the user with the configured PromptOptions.
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+            return await stepContext.NextAsync();
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)

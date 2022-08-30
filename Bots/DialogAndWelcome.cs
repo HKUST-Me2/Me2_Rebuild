@@ -35,16 +35,20 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    if (Globals.DEBUG_MODE==1) {await turnContext.SendActivityAsync("#ID=1");}
+                    if (Globals.DEBUG_MODE == 1) { await turnContext.SendActivityAsync("#ID=1"); }
                     await turnContext.SendActivityAsync($"👋Hi there! {WelcomeMessage}", cancellationToken: cancellationToken);
+                    Globals.CameBack = false;
 
-                    if (Globals.DEBUG_MODE==1) {await turnContext.SendActivityAsync("#ID=2");}
+                    if (Globals.DEBUG_MODE == 1) { await turnContext.SendActivityAsync("#ID=2"); }
                     await turnContext.SendActivityAsync(InfoMessage, cancellationToken: cancellationToken);
 
-                    await turnContext.SendActivityAsync("⌨️Type anything to start the bot:", cancellationToken: cancellationToken);
+                    //await turnContext.SendActivityAsync("⌨️Type anything to start the bot:", cancellationToken: cancellationToken);
+                    await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+
+
                 }
             }
         }
-    }     
-        
+    }
+
 }

@@ -728,5 +728,19 @@ namespace Microsoft.BotBuilderSamples
                 Content = AdaptiveCard.FromJson(File.ReadAllText(@".\OtherAdaptiveCards\DocumentationLongText.json")).Card
             };
         }
+
+        public static HeroCard GetDocHandleRecord()
+        {
+            var heroCard = new HeroCard
+            {
+                Text = "**I want to remain anonymous.** \n\n We will provide you with a case number and you will need to set a password " +
+                "so as to access the record in future.The University will NOT know your identity and therefore will not contact " +
+                "you for further case handling.You can choose to send this record to the University later if you want. \n\n" +
+                "**I want to send this record to the University with my identity disclosed.** \n\n" +
+                "We will verify your identity via school email. The case record with your identity will be sent to " +
+                "the Gender Discrimination Committee for handling."
+            };
+            return heroCard;
+        }
     }
 }
