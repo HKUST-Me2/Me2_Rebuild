@@ -590,12 +590,16 @@ namespace Microsoft.BotBuilderSamples.Utilities
             IsAccess = false;
             if (IsAccess)
             {
-                List<ToDoTask> toDoTasks = await _cosmosDBClient.QueryItemsAsync(User.UserID, Configuration["CosmosEndPointURI"], Configuration["CosmosPrimaryKey"], Configuration["CosmosDatabaseId"], Configuration["CosmosContainerID"], Configuration["CosmosPartitionKey"]);
-                //if (toDoTasks.Count == 0)
-                //{
-                //    await stepContext.Context.SendActivityAsync(MessageFactory.Text("You don't have any tasks added."), cancellationToken);
-                //    return await stepContext.EndDialogAsync(null, cancellationToken);
-                //}
+                User.UserID = "HL5PQZX"; // hard code this for testing 
+                List<ToDoTask> toDoTasks = await _cosmosDBClient.QueryItemsAsync("HL5PQZX", Configuration["CosmosEndPointURI"], Configuration["CosmosPrimaryKey"], Configuration["CosmosDatabaseId"], Configuration["CosmosContainerID"], Configuration["CosmosPartitionKey"]);
+                if (toDoTasks.Count == 0)
+                {
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text("You don't have any tasks added."), cancellationToken);
+                    return await stepContext.EndDialogAsync(null, cancellationToken);
+                }
+                
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(toDoTasks[0].Year), cancellationToken);
+
                 MyData.Year = toDoTasks[0].Year;
                 MyData.Season = toDoTasks[0].Season;
                 MyData.Date = toDoTasks[0].Date;
@@ -617,6 +621,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 MyData.infoOfThesePeople = toDoTasks[0].infoOfThesePeople;
                 MyData.attachmentDoc = toDoTasks[0].attachemntDoc; 
             }
+
 
             MyData.attachmentDoc = (List<Attachment>)stepContext.Result;
             List<Attachment> attachments = (List<Attachment>)stepContext.Result;
