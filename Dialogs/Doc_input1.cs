@@ -584,6 +584,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         }
 
         // Modification
+        // TODO 
         public bool IsAccess;
         private async Task<DialogTurnResult> ShowAllAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
