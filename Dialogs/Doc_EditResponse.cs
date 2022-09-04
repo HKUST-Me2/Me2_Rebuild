@@ -57,15 +57,14 @@ namespace Microsoft.BotBuilderSamples.Utilities
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        // Modification
-        // TODO 
-        public bool IsAccess;
+        // Modification of data 
+        #region Modification
+        
         private async Task<DialogTurnResult> GetData(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             MyData = (data)stepContext.Options;
             return await stepContext.NextAsync();
         }
-
 
         private async Task<DialogTurnResult> ShowAllAnswer(WaterfallStepContext stepContext,CancellationToken cancellationToken)
         {
@@ -410,6 +409,10 @@ namespace Microsoft.BotBuilderSamples.Utilities
             return await stepContext.NextAsync();
         }
 
+        #endregion
+
+        // Handling Record anonymously
+        #region HandleRecord
         private async Task<DialogTurnResult> WaystoHandleRecord(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("How would you like to handle the record? You may:"), cancellationToken);
@@ -531,6 +534,10 @@ namespace Microsoft.BotBuilderSamples.Utilities
             return await stepContext.EndDialogAsync(null, cancellationToken);
         }
 
+        #endregion
+
+        // Handling disclosed record
+        #region HandleDisclosedRecord
         private async Task<DialogTurnResult> StartOfIdentityDisclosed(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (Globals.DEBUG_MODE == 1)
@@ -539,7 +546,10 @@ namespace Microsoft.BotBuilderSamples.Utilities
             }
             return await stepContext.EndDialogAsync();
         }
+        #endregion
 
+        // Choices for editing Responses (Hero Card)
+        #region Choices_EditResponse
         private IList<Choice> YearGetChoice()
         {
             var cardOptions = new List<Choice>()
@@ -640,6 +650,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             return cardOptions;
         }
 
+        #endregion
         private IList<Choice> HandleResponse()
         {
             var cardOptions = new List<Choice>()
