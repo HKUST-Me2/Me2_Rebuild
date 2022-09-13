@@ -18,30 +18,30 @@ using Microsoft.BotBuilderSamples.Utilities;
 namespace Microsoft.BotBuilderSamples.Utilities
 {
     public class data
-        {
-            public string Year;
-            public string Season;
-            public string Date;
-            public string Time;
-            public string DateAdditional;
-            public string Place;
-            public string PlaceAdditional;
-            public string Eyewitness;
-            public string Interact;
-            public string EyewitnessAdditional;
-            public string ToldOthers;
-            public string ToldOthersAdditional;
-            public string Offender;
-            public string multiplechoice;       // Should be a list (?)
-            public string remember;
-            public string numOfOffender;
-            public string nameOfOffender;
-            public string infoOfOffender;
-            public string infoOfThesePeople;
-            public List<Attachment> attachmentDoc; // Store Attachment 
+    {
+        public string Year;
+        public string Season;
+        public string Date;
+        public string Time;
+        public string DateAdditional;
+        public string Place;
+        public string PlaceAdditional;
+        public string Eyewitness;
+        public string Interact;
+        public string EyewitnessAdditional;
+        public string ToldOthers;
+        public string ToldOthersAdditional;
+        public string Offender;
+        public string multiplechoice;       // Should be a list (?)
+        public string remember;
+        public string numOfOffender;
+        public string nameOfOffender;
+        public string infoOfOffender;
+        public string infoOfThesePeople;
+        public List<Attachment> attachmentDoc; // Store Attachment 
 
-        }
-    
+    }
+
 
     public class InputDialog : ComponentDialog
     {
@@ -151,8 +151,9 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> DateOther(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-             MyData.Date = ((FoundChoice)stepContext.Result).Value;
-            if(MyData.Date == "Other: You can directly type the date in the chat"){
+            MyData.Date = ((FoundChoice)stepContext.Result).Value;
+            if (MyData.Date == "Other: You can directly type the date in the chat")
+            {
                 return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("type here") }, cancellationToken);
             }
             else return await stepContext.NextAsync();
@@ -160,9 +161,9 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> TimeGetChoice(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if(MyData.Date == "Other: You can directly type the date in the chat")
+            if (MyData.Date == "Other: You can directly type the date in the chat")
                 MyData.Date = ((string)stepContext.Result);
-            
+
             var promptOptions = new PromptOptions
             {
                 Prompt = MessageFactory.Text($"What time of day was it?"),
@@ -176,8 +177,9 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> TimeOther(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-             MyData.Time = ((FoundChoice)stepContext.Result).Value;
-            if(MyData.Time == "Other: You can directly type the exact time in the chat"){
+            MyData.Time = ((FoundChoice)stepContext.Result).Value;
+            if (MyData.Time == "Other: You can directly type the exact time in the chat")
+            {
                 return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("type here") }, cancellationToken);
             }
             else return await stepContext.NextAsync();
@@ -185,10 +187,29 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> DateAdditional(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-             if(MyData.Time == "Other: You can directly type the exact time in the chat")
+            if (MyData.Time == "Other: You can directly type the exact time in the chat")
                 MyData.Time = ((string)stepContext.Result);
-        
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Is there anything else you remember about the date? \n Examples: holidays, day of the week, games, school or social events around that time, etc.") }, cancellationToken);
+
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    Text = "Is there anything else you remember about the date? \n Examples: holidays, day of the week, games, school or social events around that time, etc.",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    },
+                }
+            };
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
+
+
+
 
         }
         private async Task<DialogTurnResult> PlaceGetChoice(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -209,18 +230,36 @@ namespace Microsoft.BotBuilderSamples.Utilities
         {
             MyData.Place = ((FoundChoice)stepContext.Result).Value;
 
-            if(MyData.Place == "Other: You can directly type in the chat"){
+            if (MyData.Place == "Other: You can directly type in the chat")
+            {
                 return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("type here") }, cancellationToken);
             }
             else return await stepContext.NextAsync();
         }
         private async Task<DialogTurnResult> PlaceAdditional(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-             if(MyData.Place == "Other: You can directly type in the chat")
+            if (MyData.Place == "Other: You can directly type in the chat")
                 MyData.Place = ((string)stepContext.Result);
-        
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Are there any other details you remember about the location? \n Examples: exact address, area of campus, intersection, building number, neighborhood, buildings or trees nearby, colors you remember, etc.") }, cancellationToken);
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    Text = "Are there any other details you remember about the location? \n Examples: exact address, area of campus, intersection, building number, neighborhood, buildings or trees nearby, colors you remember, etc.",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    },
+                }
+            };
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
+
+
 
         }
         private async Task<DialogTurnResult> EyewitnessGetChoice(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -229,7 +268,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
             var promptOptions = new PromptOptions
             {
-                Prompt =  MessageFactory.Text($"Did anyone else see or hear either all or any part of what happened?"),
+                Prompt = MessageFactory.Text($"Did anyone else see or hear either all or any part of what happened?"),
                 RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
                 Choices = EyewhitnessGetChoice(),
                 Style = ListStyle.HeroCard,
@@ -254,7 +293,31 @@ namespace Microsoft.BotBuilderSamples.Utilities
         private async Task<DialogTurnResult> EyewitnessAdditional(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             MyData.Interact = ((FoundChoice)stepContext.Result).Value;
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("What information do you know about any of the people described above?  \n Examples: how many people, what they saw or heard, their relationship to you, where they may have been standing or sitting, how physically close to you they were.") }, cancellationToken);
+
+            if (MyData.Interact == "Yes")
+            {
+                var opts = new PromptOptions
+                {
+                    Prompt = new Activity
+                    {
+                        Type = ActivityTypes.Message,
+                        Text = "What information do you know about any of the people described above?  \n Examples: how many people, what they saw or heard, their relationship to you, where they may have been standing or sitting, how physically close to you they were.",
+                        SuggestedActions = new SuggestedActions()
+                        {
+                            Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                        },
+                    }
+                };
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
+            }
+            else
+            {
+                return await stepContext.NextAsync();
+            }
         }
 
         private async Task<DialogTurnResult> ToldOthersGetChoice(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -263,7 +326,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
             var promptOptions = new PromptOptions
             {
-                Prompt =  MessageFactory.Text($"Did you tell anyone about the incident"),
+                Prompt = MessageFactory.Text($"Did you tell anyone about the incident"),
                 RetryPrompt = MessageFactory.Text(Globals.reprompt_text),
                 Choices = ToldOthersGetChoice(),
                 Style = ListStyle.HeroCard,
@@ -274,8 +337,29 @@ namespace Microsoft.BotBuilderSamples.Utilities
         private async Task<DialogTurnResult> ToldOthersAdditional(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             MyData.ToldOthers = ((FoundChoice)stepContext.Result).Value;
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("What information do you know about the people you told? \n Who you told, what you told them, when you told them, how you told them (on the phone, in person, over text, etc), their relationship to you or the offender, etc") }, cancellationToken);
+            if (MyData.ToldOthers == "Yes")
+            {
 
+
+
+                var opts = new PromptOptions
+                {
+                    Prompt = new Activity
+                    {
+                        Type = ActivityTypes.Message,
+                        Text = "What information do you know about the people you told? \n Who you told, what you told them, when you told them, how you told them (on the phone, in person, over text, etc), their relationship to you or the offender, etc",
+                        SuggestedActions = new SuggestedActions()
+                        {
+                            Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                        },
+                    }
+                };
+                return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
+            }
+            else return await stepContext.NextAsync();
         }
         private async Task<DialogTurnResult> OffenderGetChoice(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -296,7 +380,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         {
             MyData.Offender = ((FoundChoice)stepContext.Result).Value;
 
-            return await stepContext.NextAsync(); 
+            return await stepContext.NextAsync();
         }
 
         // PART 2
@@ -340,7 +424,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             };
 
             // Display a Text Prompt and wait for input
-            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
         }
 
         private async Task<DialogTurnResult> HandleResponseAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -352,6 +436,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
             dynamic val = stepContext.Context.Activity.Value;
             await stepContext.Context.SendActivityAsync("Debug 2");
+
             // Check if the activity came from a submit action
             if (string.IsNullOrEmpty(txt) && val != null)
             {
@@ -420,7 +505,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> Documentation34(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            MyData.multiplechoice = ((FoundChoice)stepContext.Result).Value; 
+            MyData.multiplechoice = ((FoundChoice)stepContext.Result).Value;
             //ID: 4 - 4 - 1 - 2 - 3 - 1 - 34
             // Create the text prompt
             var opts = new PromptOptions
@@ -430,17 +515,22 @@ namespace Microsoft.BotBuilderSamples.Utilities
                     Type = ActivityTypes.Message,
                     Text = "What happened? Include anything you are able to remember around what you felt, " +
                     "saw, heard, smelled, tasted, or anything you can’t forget about your experience or experiences with the offender(s).",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    },
                 }
             };
-
-            // Display a Text Prompt and wait for input
-            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
         }
 
         private async Task<DialogTurnResult> Documentation36(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             //await stepContext.Context.SendActivityAsync($"INPUT: {stepContext.Result}");
-            MyData.remember = ((string)stepContext.Result); 
+            MyData.remember = ((string)stepContext.Result);
             //ID: 4 - 4 - 1 - 2 - 3 - 1 - 36
             // Create the text prompt
             var opts = new PromptOptions
@@ -449,7 +539,16 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 {
                     Type = ActivityTypes.Message,
                     Text = "How many offenders were there? It’s okay if you are not sure, just put what you can remember.",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+
+                    }
                 }
+
             };
 
             // Display a Text Prompt and wait for input
@@ -467,7 +566,15 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 {
                     Type = ActivityTypes.Message,
                     Text = "What is their name?/What are their names? (if known)",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    }
                 }
+
             };
 
             // Display a Text Prompt and wait for input
@@ -476,7 +583,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         private async Task<DialogTurnResult> Documentation39(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            MyData.nameOfOffender = ((string)stepContext.Result); 
+            MyData.nameOfOffender = ((string)stepContext.Result);
             //ID: 4 - 4 - 1 - 2 - 3 - 1 - 39
             // Create the text prompt
             var opts = new PromptOptions
@@ -487,7 +594,15 @@ namespace Microsoft.BotBuilderSamples.Utilities
                     Text = "Do you know any other information about the offender(s)? Examples: " +
                         "cell phone number, what job they have, if you’ve seen them before, how you know them, any physical characteristics " +
                         "(hair color, identifiable marks, tattoos, clothing, moles or birthmarks), or anything you could not forget about them.",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    }
                 }
+
             };
 
             // Display a Text Prompt and wait for input
@@ -505,7 +620,15 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 {
                     Type = ActivityTypes.Message,
                     Text = "What information do you know about these people?",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Skip", Type = ActionTypes.ImBack, Value = "Skip" },
+            },
+                    }
                 }
+
             };
 
             // Display a Text Prompt and wait for input
@@ -523,7 +646,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 {
                     Type = ActivityTypes.Message,
                     Text = "If you choose to report what happened to the university, the police, " +
-                        "the press, or in a lawsuit, they may ask you for electronic and/or physical evidence of what happened. If you don't have these things, " +
+                        "the press, or in a lawsuit, they may ask you for electronic and/or physical evidence of what happened. Even you don't have these things, " +
                         "it doesn't mean that what happened is any less real.",
                 }
             };
@@ -551,10 +674,17 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 {
                     Type = ActivityTypes.Message,
                     Text = "What types of evidence do you have now (or think might exist)? You can send attachments in this chat.",
+                SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Not for now", Type = ActionTypes.ImBack, Value = "Not for now" },
+            },
+               
+                }
                 }
             };
-
-            // Display a Text Prompt and wait for input
+            
             return await stepContext.PromptAsync(nameof(AttachmentPrompt), opts);
         }
 
@@ -680,6 +810,15 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 new Choice() { Value = "Skip"},
             };
 
+            return cardOptions;
+        }
+
+        private IList<Choice> SkipChoice()
+        {
+            var cardOptions = new List<Choice>()
+            {
+                new Choice() { Value = "Skip"},
+            };
             return cardOptions;
         }
 
