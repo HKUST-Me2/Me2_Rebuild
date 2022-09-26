@@ -46,7 +46,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new AttachmentPrompt(nameof(AttachmentPrompt)));
-            AddDialog(new TextPrompt(UserValidationDialogID, UserValidation));
+            // AddDialog(new TextPrompt(UserValidationDialogID, UserValidation));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 GetData,
@@ -61,7 +61,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 StartOfIdentityDisclosed,
                 SendEmail,
                 CheckVerification,
-                // resendStep,
+                UserValidation,
                 EndAsync
 
             }));
@@ -541,7 +541,8 @@ namespace Microsoft.BotBuilderSamples.Utilities
             // + "@connect.ust.hk";
             // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
 
-            if(!IsValidEmail(MailTo)){
+            if (!IsValidEmail(MailTo))
+            {
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your inputted email address is invalid. Please try again."), cancellationToken);
                 stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
                 return await stepContext.NextAsync();
@@ -552,7 +553,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             if (MailTo.Split('@')[1] != "connect.ust.hk" && MailTo.Split('@')[1] != "ust.hk")
             {
                 // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
-              
+
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your input email is not a school email (@connect.ust.hk or @ ust.hk)."), cancellationToken);
                 stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
                 return await stepContext.NextAsync();
@@ -573,8 +574,8 @@ namespace Microsoft.BotBuilderSamples.Utilities
             //smtpClient.Send("MailBy", "MailTo", "Subject", "Body")
             smtpClient.Send("sarenaleung@gmail.com", MailTo, "Hi", verify);
 
-            await stepContext.Context.SendActivityAsync("1111");
-               
+            // await stepContext.Context.SendActivityAsync("1111");
+
             return await stepContext.NextAsync();
         }
 
@@ -596,78 +597,68 @@ namespace Microsoft.BotBuilderSamples.Utilities
             {
                 return false;
             }
-
-            //using EmailAddressAttribute (less permissive)
-            // var email2 = new EmailAddressAttribute();
-            // return email2.IsValid(email);
-
-            // if (new EmailAddressAttribute().IsValid("someone@somewhere.com")) 
-            // return true;
-            // else return false;
         }
 
         private async Task<DialogTurnResult> CheckVerification(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-        //      var heroCard = new HeroCard
-        //     {
-        //         Text = "Please fill in the verification code stated in the email. Check your spam folder if you couldn't find the email.",
-        //         Buttons = new List<CardAction>{
-        //             new CardAction(ActionTypes.ImBack, title: "cannot recieve code", value: "1")
-        //         }
-        //     };
-        //     var attachments = new List<Microsoft.Bot.Schema.Attachment>();
-        //     var reply = MessageFactory.Attachment(attachments);
-
-        //     reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-        //     reply.Attachments.Add(heroCard.ToAttachment());
-        //    await stepContext.Context.SendActivityAsync(reply, cancellationToken);
-        //    return await stepContext.NextAsync();
-
-            // await stepContext.Context.SendActivityAsync("1111");
-            return await stepContext.PromptAsync(UserValidationDialogID, new PromptOptions
-            {
-                Prompt = MessageFactory.Text("Please fill in the verification code stated in the email. Check your spam folder if you couldn't find the email. \n Type \" help \" if cant recieve the code")
-            }, cancellationToken);
-            // return await stepContext.NextAsync();
-            //maybe if user cant recieve the mail need to have a option to try send again?
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please fill in the verification code stated in the email. Check your spam folder if you couldn't find the email. \n Type \" help \" if cant recieve the code") }, cancellationToken);
 
         }
 
-        // private async Task<DialogTurnResult> resendStep(WaterfallStepContext stepContext, CancellationToken cancellationToken){
-        //     await stepContext.Context.SendActivityAsync(((string)stepContext.Result));
-        //     if (((string)stepContext.Result) == "help"){
-                 
-               
-        //         stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 3;
-        //         return await stepContext.NextAsync();
-        //     }
-            
-        //     return await stepContext.NextAsync();
-        // }
-
-        private async Task<bool> UserValidation(PromptValidatorContext<string> promptcontext, CancellationToken cancellationtoken)
+        private async Task<DialogTurnResult> UserValidation(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            string code = promptcontext.Recognized.Value;
-            
-            await promptcontext.Context.SendActivityAsync("Please wait, while I validate your details...", cancellationToken: cancellationtoken);
+            string code = ((string)stepContext.Result);
 
-            if (verify == code)
+            if (code == "help" || code == "Re-enter Email")
             {
-                await promptcontext.Context.SendActivityAsync("We really appreciate your courage. The Gender Discrimination Committee of HKUST will conatct you soon. Send an email to  gdc@ust.hk if you have further questions.", cancellationToken: cancellationtoken);
-                User.UserID = MailTo.Split('@')[0];
-                await promptcontext.Context.SendActivityAsync(User.UserID, cancellationToken: cancellationtoken);
-
-                await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
-                return true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 4;
+                return await stepContext.NextAsync();
             }
-            await promptcontext.Context.SendActivityAsync("The verification code you entered is incorrect, please retry.", cancellationToken: cancellationtoken);
-            //is it better to add a option of 1. retry 2. type the email again and resend a new code
 
-            return false;
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please wait, while I validate your details..."), cancellationToken);
+
+            if (verify.ToString() == code)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("We really appreciate your courage. The Gender Discrimination Committee of HKUST will conatct you soon. Send an email to  gdc@ust.hk if you have further questions."), cancellationToken);
+                User.UserID = MailTo.Split('@')[0];
+                //  await stepContext.Context.SendActivityAsync(MailTo);
+                //  await stepContext.Context.SendActivityAsync(MyData.Year);
+                
+                // await stepContext.Context.SendActivityAsync(User.UserID);
+
+                return await stepContext.NextAsync();
+            }
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("The verification code you entered is incorrect, please retry."), cancellationToken);
+            // stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 4;
+            // return await stepContext.NextAsync();
+
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    Text = "The verification code you entered is incorrect, please retry.",
+                SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+            {
+                new CardAction() { Title = "Re-enter Email", Type = ActionTypes.ImBack, Value = "Re-enter Email" },
+            },
+               
+                }
+                }
+            };
+
+            stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 1;
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
+
         }
 
         private async Task<DialogTurnResult> EndAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+             await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
+                // await _cosmosDBClient.AddItemsToContainerAsync(MailTo.Split('@')[0], MyData);
+                // await stepContext.Context.SendActivityAsync(MessageFactory.Text("here"), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("End"), cancellationToken);
 
             return await stepContext.EndDialogAsync();
