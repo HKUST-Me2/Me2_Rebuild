@@ -15,11 +15,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.BotBuilderSamples.Utilities;
 
+using System.Net;
+using System.Net.Mail;
+
+using System.ComponentModel.DataAnnotations;
+
 namespace Microsoft.BotBuilderSamples.Utilities
 {
     public class ResponseDialog : ComponentDialog
     {
         data MyData;
+        string verify;
+        string MailTo;
         private int EditQuestion = 999;
         private readonly ToDoLUISRecognizer _luisRecognizer;
         protected readonly ILogger Logger;
@@ -30,7 +37,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         public ResponseDialog(ToDoLUISRecognizer luisRecognizer, IConfiguration configuration, CosmosDBClient cosmosDBClient)
             : base(nameof(ResponseDialog))
         {
-            
+
             _luisRecognizer = luisRecognizer;
             Configuration = configuration;
             _cosmosDBClient = cosmosDBClient;
@@ -39,6 +46,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new AttachmentPrompt(nameof(AttachmentPrompt)));
+            AddDialog(new TextPrompt(UserValidationDialogID, UserValidation));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 GetData,
@@ -48,9 +56,14 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 WaystoHandleRecord,
                 haveIDStepAsync,
                 UserExistsStepAsync,
-                // saveStepAsync,
-                SummaryStepAsync,
+                AddtoDBStepAsync,
                 ShowTasksStepAsync,
+                StartOfIdentityDisclosed,
+                SendEmail,
+                CheckVerification,
+                // resendStep,
+                EndAsync
+
             }));
 
             // The initial child Dialog to run.
@@ -59,16 +72,16 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         // Modification of data 
         #region Modification
-        
+
         private async Task<DialogTurnResult> GetData(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             MyData = (data)stepContext.Options;
             return await stepContext.NextAsync();
         }
 
-        private async Task<DialogTurnResult> ShowAllAnswer(WaterfallStepContext stepContext,CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> ShowAllAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
- 
+
             await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Here's your response: \n\n" +
                 $"**1. What year did this happen?** \n\n" +
                 $"{MyData.Year} \n\n" +
@@ -250,7 +263,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                 case "Modify 14.Indicated choices":
                     EditQuestion = 14;
                     var message = MessageFactory.Text("");
-                    message.Attachments = new List<Attachment>() { Cards.DOCMC() };
+                    message.Attachments = new List<Microsoft.Bot.Schema.Attachment>() { Cards.DOCMC() };
                     await stepContext.Context.SendActivityAsync(message, cancellationToken);
                     var opts = new PromptOptions
                     {
@@ -417,7 +430,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         {
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("How would you like to handle the record? You may:"), cancellationToken);
 
-            var attachments = new List<Attachment>();
+            var attachments = new List<Microsoft.Bot.Schema.Attachment>();
             // Reply to the activity we received with an activity.
             var reply = MessageFactory.Attachment(attachments);
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
@@ -485,33 +498,10 @@ namespace Microsoft.BotBuilderSamples.Utilities
             }
         }
 
-        //  private async Task<DialogTurnResult> saveStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        // {
-        //     var userDetails = (User)stepContext.Options;
-        //     stepContext.Values["Task"] = MyData.Date;
-        //     userDetails.TasksList.Add((string)stepContext.Values["Task"]);
-
-        //     return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions
-        //     {
-        //         Prompt = MessageFactory.Text("Would you like to Add more tasks?")
-        //     }, cancellationToken);
-        // }
-
-        private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> AddtoDBStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
-            // var userDetails = (User)stepContext.Result;
 
-            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please wait while I add your tasks to the database..."), cancellationToken);
-            // for (int i = 0; i < userDetails.TasksList.Count; i++)
-            // {
-            //     if (await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, userDetails.TasksList[i]) == -1)
-            //     {
-            //         await stepContext.Context.SendActivityAsync(MessageFactory.Text("The Task '" + userDetails.TasksList[i] + "' already exists"), cancellationToken);
-
-            //     }
-
-            // }
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Add Task operation completed. Thank you."), cancellationToken);
 
             return await stepContext.NextAsync();
@@ -538,14 +528,152 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
         // Handling disclosed record
         #region HandleDisclosedRecord
+
+        //ask for email address
         private async Task<DialogTurnResult> StartOfIdentityDisclosed(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (Globals.DEBUG_MODE == 1)
-            {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Enter Idneity Disclosed Part"), cancellationToken);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please tell me your school email, e.g. xxx@connect.ust.hk") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> SendEmail(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            MailTo = ((string)stepContext.Result);
+            // + "@connect.ust.hk";
+            // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
+
+            if(!IsValidEmail(MailTo)){
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your inputted email address is invalid. Please try again."), cancellationToken);
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
             }
+
+            // //check if mail is sku email
+            // //not sure if it is @ust.hk
+            if (MailTo.Split('@')[1] != "connect.ust.hk" && MailTo.Split('@')[1] != "ust.hk")
+            {
+                // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
+              
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your input email is not a school email (@connect.ust.hk or @ ust.hk)."), cancellationToken);
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            //send email
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                //NetworkCredential("the email address to send out the mail", "password")
+                Credentials = new NetworkCredential("sarenaleung@gmail.com", "xgrcskueomzkkydp"),
+                EnableSsl = true,
+            };
+
+            //generate verification code
+            verify = Repository.RandomString(7);
+
+            //smtpClient.Send("MailBy", "MailTo", "Subject", "Body")
+            smtpClient.Send("sarenaleung@gmail.com", MailTo, "Hi", verify);
+
+            await stepContext.Context.SendActivityAsync("1111");
+               
+            return await stepContext.NextAsync();
+        }
+
+        bool IsValidEmail(string email)
+        {
+            // using System.Net.Mail.MailAddress (more permissive)
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false; // suggested by @TK-421
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+
+            //using EmailAddressAttribute (less permissive)
+            // var email2 = new EmailAddressAttribute();
+            // return email2.IsValid(email);
+
+            // if (new EmailAddressAttribute().IsValid("someone@somewhere.com")) 
+            // return true;
+            // else return false;
+        }
+
+        private async Task<DialogTurnResult> CheckVerification(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+        //      var heroCard = new HeroCard
+        //     {
+        //         Text = "Please fill in the verification code stated in the email. Check your spam folder if you couldn't find the email.",
+        //         Buttons = new List<CardAction>{
+        //             new CardAction(ActionTypes.ImBack, title: "cannot recieve code", value: "1")
+        //         }
+        //     };
+        //     var attachments = new List<Microsoft.Bot.Schema.Attachment>();
+        //     var reply = MessageFactory.Attachment(attachments);
+
+        //     reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+        //     reply.Attachments.Add(heroCard.ToAttachment());
+        //    await stepContext.Context.SendActivityAsync(reply, cancellationToken);
+        //    return await stepContext.NextAsync();
+
+            // await stepContext.Context.SendActivityAsync("1111");
+            return await stepContext.PromptAsync(UserValidationDialogID, new PromptOptions
+            {
+                Prompt = MessageFactory.Text("Please fill in the verification code stated in the email. Check your spam folder if you couldn't find the email. \n Type \" help \" if cant recieve the code")
+            }, cancellationToken);
+            // return await stepContext.NextAsync();
+            //maybe if user cant recieve the mail need to have a option to try send again?
+
+        }
+
+        // private async Task<DialogTurnResult> resendStep(WaterfallStepContext stepContext, CancellationToken cancellationToken){
+        //     await stepContext.Context.SendActivityAsync(((string)stepContext.Result));
+        //     if (((string)stepContext.Result) == "help"){
+                 
+               
+        //         stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 3;
+        //         return await stepContext.NextAsync();
+        //     }
+            
+        //     return await stepContext.NextAsync();
+        // }
+
+        private async Task<bool> UserValidation(PromptValidatorContext<string> promptcontext, CancellationToken cancellationtoken)
+        {
+            string code = promptcontext.Recognized.Value;
+            
+            await promptcontext.Context.SendActivityAsync("Please wait, while I validate your details...", cancellationToken: cancellationtoken);
+
+            if (verify == code)
+            {
+                await promptcontext.Context.SendActivityAsync("We really appreciate your courage. The Gender Discrimination Committee of HKUST will conatct you soon. Send an email to  gdc@ust.hk if you have further questions.", cancellationToken: cancellationtoken);
+                User.UserID = MailTo.Split('@')[0];
+                await promptcontext.Context.SendActivityAsync(User.UserID, cancellationToken: cancellationtoken);
+
+                await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
+                return true;
+            }
+            await promptcontext.Context.SendActivityAsync("The verification code you entered is incorrect, please retry.", cancellationToken: cancellationtoken);
+            //is it better to add a option of 1. retry 2. type the email again and resend a new code
+
+            return false;
+        }
+
+        private async Task<DialogTurnResult> EndAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text("End"), cancellationToken);
+
             return await stepContext.EndDialogAsync();
         }
+
+
         #endregion
 
         // Choices for editing Responses (Hero Card)
