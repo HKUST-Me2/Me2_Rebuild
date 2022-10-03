@@ -190,7 +190,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
                 case "Modify 3.Date":
                     EditQuestion = 3;
-                    return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please type your time of day") }, cancellationToken);
+                    return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Do you know the exact date?") }, cancellationToken);
 
                 case "Modify 4.Time of day":
                     EditQuestion = 4;
@@ -277,7 +277,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                     // Display a Text Prompt and wait for input
                     return await stepContext.PromptAsync(nameof(TextPrompt), opts);
 
-                case "Modify 15.Anything yyou remember":
+                case "Modify 15.Anything you remember":
                     EditQuestion = 15;
                     var opts15 = new PromptOptions
                     {
@@ -398,7 +398,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
                     MyData.Offender = ((FoundChoice)stepContext.Result).Value;
                     break;
                 case 14:
-                    MyData.multiplechoice = ((FoundChoice)stepContext.Result).Value;
+                    MyData.multiplechoice = ((string)stepContext.Result); // = ((FoundChoice)stepContext.Result).Value;
                     break;
                 case 15:
                     MyData.remember = ((string)stepContext.Result);
@@ -502,7 +502,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         {
             await _cosmosDBClient.AddItemsToContainerAsync(User.UserID, MyData);
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Add Task operation completed. Thank you."), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text("Add Task operation completed. Thank you."), cancellationToken);
 
             return await stepContext.NextAsync();
         }
@@ -512,13 +512,13 @@ namespace Microsoft.BotBuilderSamples.Utilities
             List<ToDoTask> toDoTasks = await _cosmosDBClient.QueryItemsAsync(User.UserID, Configuration["CosmosEndPointURI"], Configuration["CosmosPrimaryKey"], Configuration["CosmosDatabaseId"], Configuration["CosmosContainerID"], Configuration["CosmosPartitionKey"]);
             if (toDoTasks.Count == 0)
             {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("You don't have any tasks added."), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Sorry, we failed adding entry to the database. Please contact us for bug reporting."), cancellationToken);
                 return await stepContext.EndDialogAsync(null, cancellationToken);
             }
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please find the below tasks you provided."), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text("Please find the below tasks you provided."), cancellationToken);
             //for (int i = 0; i < toDoTasks.Count; i++)
             //{
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(toDoTasks[0].Year), cancellationToken);
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(toDoTasks[0].Year), cancellationToken);
             //}
 
             return await stepContext.EndDialogAsync(null, cancellationToken);
