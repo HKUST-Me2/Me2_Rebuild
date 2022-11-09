@@ -550,21 +550,21 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
             // //check if mail is sku email
             // //not sure if it is @ust.hk
-            if (MailTo.Split('@')[1] != "connect.ust.hk" && MailTo.Split('@')[1] != "ust.hk")
-            {
-                // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
+            // if (MailTo.Split('@')[1] != "connect.ust.hk" && MailTo.Split('@')[1] != "ust.hk")
+            // {
+            //     // await stepContext.Context.SendActivityAsync(MailTo.Split('@')[1]);
 
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your input email is not a school email (@connect.ust.hk or @ ust.hk)."), cancellationToken);
-                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
-                return await stepContext.NextAsync();
-            }
+            //     await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your input email is not a school email (@connect.ust.hk or @ ust.hk)."), cancellationToken);
+            //     stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+            //     return await stepContext.NextAsync();
+            // }
 
             //send email
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
                 //NetworkCredential("the email address to send out the mail", "password")
-                Credentials = new NetworkCredential("sarenaleung@gmail.com", "xgrcskueomzkkydp"),
+                Credentials = new NetworkCredential("me2testing@outlook.com", "testingme2"),
                 EnableSsl = true,
             };
 
@@ -572,7 +572,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             verify = Repository.RandomString(7);
 
             //smtpClient.Send("MailBy", "MailTo", "Subject", "Body")
-            smtpClient.Send("sarenaleung@gmail.com", MailTo, "Hi", verify);
+            smtpClient.Send("me2testing@outlook.com", MailTo, "Verification Code for Me2", "Please ignore this email if you didnt verify your email through Me2 chatbot" + verify);
 
             // await stepContext.Context.SendActivityAsync("1111");
 
