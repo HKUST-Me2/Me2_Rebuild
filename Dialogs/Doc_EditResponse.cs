@@ -532,7 +532,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
         //ask for email address
         private async Task<DialogTurnResult> StartOfIdentityDisclosed(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please tell me your school email, e.g. xxx@connect.ust.hk") }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please tell me your email")}, cancellationToken);
         }
 
         private async Task<DialogTurnResult> SendEmail(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -564,7 +564,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             {
                 Port = 587,
                 //NetworkCredential("the email address to send out the mail", "password")
-                Credentials = new NetworkCredential("me2testing@outlook.com", "testingme2"),
+                Credentials = new NetworkCredential("sarenaleung@gmail.com", "xgrcskueomzkkydp"),
                 EnableSsl = true,
             };
 
@@ -572,7 +572,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             verify = Repository.RandomString(7);
 
             //smtpClient.Send("MailBy", "MailTo", "Subject", "Body")
-            smtpClient.Send("me2testing@outlook.com", MailTo, "Verification Code for Me2", "Please ignore this email if you didnt verify your email through Me2 chatbot" + verify);
+            smtpClient.Send("sarenaleung@gmail.com", MailTo, "Verification Code for Me2", "Please ignore this email if you didnt verify your email through Me2 chatbot \n Your verification code: " + verify);
 
             // await stepContext.Context.SendActivityAsync("1111");
 
