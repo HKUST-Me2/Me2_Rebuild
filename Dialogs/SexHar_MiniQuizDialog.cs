@@ -20,6 +20,7 @@ namespace Microsoft.BotBuilderSamples
     {
       
         private int randomized;
+        private int score;
 
         //MiniQuiz Questions and answers.
         #region StringDeclaration
@@ -246,6 +247,7 @@ namespace Microsoft.BotBuilderSamples
         {
 
             // Some initialization for miniquiz Part.
+            score = 0;
             await stepContext.Context.SendActivityAsync(MiniQuizWelcoming(), cancellationToken);
             //MiniQuizWelcoming(stepContext,cancellationToken);       // Welcoming user
             Random rnd = new Random();                              // Sending Miniquiz Questions in a simple randomized order. 
@@ -505,6 +507,28 @@ namespace Microsoft.BotBuilderSamples
             }
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+
+            // print out score
+            if (score >= 5)
+            {
+                // correct more than half
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Congrats!👍 You did a great job. Keep it up! Your score is " + score + " / 6!"), cancellationToken);
+
+            }
+            else if (score >= 3)
+            {
+                // correct less than half
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your score is " + score + " / 6."), cancellationToken);
+                // direct to the education part
+
+            }
+            else
+            {
+                // score <= 2 
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Sorry but your score is " + score + " / 6. looking forward to see you again."), cancellationToken);
+                // direct to the education part 
+            }
+
             // Sending response of Thanks"
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizEnding), cancellationToken);
 
@@ -519,6 +543,8 @@ namespace Microsoft.BotBuilderSamples
             const string miniquizCorrect1 = "Correct!👍";
             const string miniquizCorrect2 = "Congrats! It's Correct!👍👍👍";
             const string miniquizCorrect3 = "You're Right!👍";
+
+            score++;
 
             Random rnd = new Random();
             // Randomize an integer, while 0 <= CorrectRnd < 3
