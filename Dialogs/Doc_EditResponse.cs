@@ -194,7 +194,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
 
                 case "Modify 4.Time of day":
                     EditQuestion = 4;
-                    return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please type your time of day") }, cancellationToken);
+                    return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("please type in the time of day") }, cancellationToken);
 
                 case "Modify 5.What I remember":
                     EditQuestion = 5;
