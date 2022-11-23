@@ -509,23 +509,23 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
 
             // print out score
-            if (score >= 5)
+            if (score <= 3 )
             {
                 // correct more than half
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Congrats!👍 You did a great job. Keep it up! Your score is " + score + " / 6!"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +". You can definitely do better! Go learn more about sexual harassment and try again later to see if you get a higher score!"), cancellationToken);
 
             }
-            else if (score >= 3)
+            else if (score <= 5)
             {
                 // correct less than half
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Your score is " + score + " / 6."), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Not bad! Your score is " + score + ".You can be an expert if you learn a bit more about sexual harassment!"), cancellationToken);
                 // direct to the education part
 
             }
             else
             {
-                // score <= 2 
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Sorry but your score is " + score + " / 6. looking forward to see you again."), cancellationToken);
+                // score >= 6 
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Congrats! Your score is " + score + ". You did a great job. Keep it up!!"), cancellationToken);
                 // direct to the education part 
             }
 
