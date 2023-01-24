@@ -21,7 +21,7 @@ This sample creates a complex conversation with dialogs.
 
 - Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/43.complex-dialog`
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/43.complex-dialog`, *****
 
   ```bash
   # run the bot
