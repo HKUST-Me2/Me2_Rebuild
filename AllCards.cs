@@ -615,8 +615,9 @@ namespace Microsoft.BotBuilderSamples
         {
             var animationCard = new AnimationCard
             {
-                Title = "🎮Welcome to MiniQuiz Game",
-                Subtitle = "Have Fun!😸",
+                Title = "🎮 Mini quiz (ask for yes/no response)",
+                Text = "The following quiz has been created using the help of the sources on this website:" +
+                            "https://sfgov.org/dosw/sexual-harassment-frequently-asked-questions",
                 Image = new ThumbnailUrl
                 {
                     Url = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",

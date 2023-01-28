@@ -39,8 +39,8 @@ namespace Microsoft.BotBuilderSamples
 
             await stepContext.Context.SendActivityAsync(
             MessageFactory.Text($"Any unwelcome demand, conduct of sexual nature, gender discrimination and speech would make others feel offended, insulted, or intimidated." +
-                $"Sexual harassment creates a hostile hostile or intimidating environment. It includes any unwanted verbal or physical sexual behaviour ranging from sexual comments about a person’s clothing, anatomy, or looks, to very serious acts that qualify as assault or rape."+
-                $"Sexual harassment is about the impact of the behaviour on you, and the severity and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour."),cancellationToken)
+                $"Sexual harassment creates a hostile hostile or intimidating environment. It includes any unwanted verbal or physical sexual behaviour ranging from sexual comments about a person’s clothing, anatomy, or looks, to very serious acts that qualify as assault or rape." +
+                $"Sexual harassment is about the impact of the behaviour on you, and the severity and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour."), cancellationToken);
             var promptOptions = new PromptOptions
             {
                 Prompt = MessageFactory.Text(Globals.prompt_text),
