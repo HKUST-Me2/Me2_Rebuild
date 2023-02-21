@@ -59,7 +59,7 @@ namespace Microsoft.BotBuilderSamples
         {
             switch (((FoundChoice)stepContext.Result).Value)
             {
-                case "I want to know others'stories":
+                case "I want to know others' stories":
                     return await stepContext.BeginDialogAsync(nameof(SexHar_OtherStoryDialog), null, cancellationToken);
                 case "Can you give me some examples of sexual harassment?":
                     return await stepContext.BeginDialogAsync(nameof(SexHar_ExampleDialog), null, cancellationToken);

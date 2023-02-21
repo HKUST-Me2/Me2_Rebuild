@@ -67,15 +67,19 @@ namespace Microsoft.BotBuilderSamples
                 case "I want to know more about sexual harassment":
                     return await stepContext.BeginDialogAsync(nameof(KnowMoreSexHarDialog), null, cancellationToken);
                 case "I want to know more about you":
-                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"entered case 2"),cancellationToken);
+                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text($"entered case 2"),cancellationToken);
                     return await stepContext.BeginDialogAsync(nameof(MoreBotDialog), null, cancellationToken);
                 case "I want to record a case":
-                    return await stepContext.BeginDialogAsync(nameof(RecordCaseDialog), null, cancellationToken);
-                    
+                    // return await stepContext.BeginDialogAsync(nameof(RecordCaseDialog), null, cancellationToken);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"🛠️🛠️ In Development 🛠️🛠️"),cancellationToken);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"⌨️Type anything to go back."), cancellationToken);
+                    return await stepContext.EndDialogAsync();
+
                 case "I just want to play with you":
                     return await stepContext.BeginDialogAsync(nameof(QnADialog), null, cancellationToken);
                     
                 default:
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"⌨️Type anything to go back."), cancellationToken);
                     return await stepContext.EndDialogAsync(); 
             }          
 }

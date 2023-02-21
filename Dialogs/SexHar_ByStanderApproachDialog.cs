@@ -75,8 +75,8 @@ namespace Microsoft.BotBuilderSamples
                 if (Globals.DEBUG_MODE==1) {await stepContext.Context.SendActivityAsync(
                 MessageFactory.Text($"#ID:4-2-2-4-2-2"), cancellationToken);}
 
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("1. Create a distraction. Try interrupting the harassment, or distract those taking part in the harassment."+" 2. Ask directly. Talk directly with the person who is being harassed," +
-                        " 3. Refer to an authority."+" 4. Enlist others to support you."), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("1. Create a distraction. Try interrupting the harassment, or distract those taking part in the harassment. \n "+" 2. Ask directly. Talk directly with the person who is being harassed, \n " +
+                        " 3. Refer to an authority. \n "+" 4. Enlist others to support you. \n "), cancellationToken);
             }
             else  // It is "Ask"
             {

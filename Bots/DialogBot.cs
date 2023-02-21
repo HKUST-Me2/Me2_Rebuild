@@ -11,9 +11,10 @@ using Microsoft.Extensions.Logging;
 static class Globals
 {
     // global int
-    public static int DEBUG_MODE =1;
+    public static int DEBUG_MODE = 0;
     public static string prompt_text = "What can I help you? You can click or type the card name";
     public static string reprompt_text = "That was not a valid choice, please click on the buttons or number from 1 to 9.";
+    public static bool CameBack = false;
 }
 
 namespace Microsoft.BotBuilderSamples
