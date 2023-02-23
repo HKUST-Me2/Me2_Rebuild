@@ -107,8 +107,8 @@ namespace Microsoft.BotBuilderSamples
                 case "I want to know more about you":
                     await stepContext.Context.SendActivityAsync(MessageFactory.Text($"entered case 2"),cancellationToken);
                     return await stepContext.BeginDialogAsync(nameof(MoreBotDialog), null, cancellationToken);
-                case "I want to record a case":
-                    return await stepContext.BeginDialogAsync(nameof(DocumentationDialog), null, cancellationToken);
+                // case "I want to record a case": disable documentation
+                //     return await stepContext.BeginDialogAsync(nameof(DocumentationDialog), null, cancellationToken);
                     
                 case "I just want to play with you":
                     return await stepContext.BeginDialogAsync(nameof(QnADialog), null, cancellationToken);
@@ -124,7 +124,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 new Choice() { Value = "I want to know more about sexual harassment"},
                 new Choice() { Value = "I want to know more about you"},
-                new Choice() { Value = "I want to record a case"},
+                // new Choice() { Value = "I want to record a case"}, disable documentation
                 new Choice() { Value = "I just want to play with you"},
             };
 

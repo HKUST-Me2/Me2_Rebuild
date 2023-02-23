@@ -12,8 +12,7 @@ namespace Microsoft.BotBuilderSamples
     {
         public KnowMoreSexHarDialog()
             : base(nameof(KnowMoreSexHarDialog))
-        {   
-            // AddDialog(new InputDialog());
+        {
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new SexHar_OtherStoryDialog());
             AddDialog(new SexHar_VictimDialog());
@@ -39,11 +38,9 @@ namespace Microsoft.BotBuilderSamples
             MessageFactory.Text($"#ID:4-2-1"), cancellationToken);}
 
             await stepContext.Context.SendActivityAsync(
-            MessageFactory.Text($"Any person of any sex, gender, age, and race can be a victim of sexual harassment. " +
-                $"Sexual harassment creates a hostile environment and is illegal. It includes any unwanted verbal or physical " +
-                $"sexual behaviour. This can range from sexual comments about a person’s clothing, anatomy, or looks, to very serious " +
-                $"acts that qualify as assault or rape. Sexual harassment is about the impact of the behaviour on you, and the severity " +
-                $"and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour."),cancellationToken);
+            MessageFactory.Text($"Any unwelcome demand, conduct of sexual nature, gender discrimination and speech would make others feel offended, insulted, or intimidated." +
+                $"Sexual harassment creates a hostile hostile or intimidating environment. It includes any unwanted verbal or physical sexual behaviour ranging from sexual comments about a person’s clothing, anatomy, or looks, to very serious acts that qualify as assault or rape." +
+                $"Sexual harassment is about the impact of the behaviour on you, and the severity and frequency of the incidents. It is not about the intent of the person who is engaging in the behaviour."), cancellationToken);
             var promptOptions = new PromptOptions
             {
                 Prompt = MessageFactory.Text(Globals.prompt_text),
@@ -63,7 +60,6 @@ namespace Microsoft.BotBuilderSamples
             switch (((FoundChoice)stepContext.Result).Value)
             {
                 case "I want to know others' stories":
-                    //return await stepContext.BeginDialogAsync(nameof(InputDialog), null, cancellationToken);
                     return await stepContext.BeginDialogAsync(nameof(SexHar_OtherStoryDialog), null, cancellationToken);
                 case "Can you give me some examples of sexual harassment?":
                     return await stepContext.BeginDialogAsync(nameof(SexHar_ExampleDialog), null, cancellationToken);
@@ -73,7 +69,7 @@ namespace Microsoft.BotBuilderSamples
                     return await stepContext.BeginDialogAsync(nameof(ByStanderApproachDialog), null, cancellationToken);
                 case "I want to know more about issues related to Orientation camps":
                     return await stepContext.BeginDialogAsync(nameof(OcampDialog), null, cancellationToken);
-                case "I think I am an expert of sexual harassment. Test me!":
+                case "I think I am an expert at understanding sexual harassment. Test me!":
                     return await stepContext.BeginDialogAsync(nameof(MiniQuizDialog), null, cancellationToken);
                 default:
                     break;
@@ -90,7 +86,7 @@ namespace Microsoft.BotBuilderSamples
                 new Choice() { Value = "What can I do if I think I'm sexually harassed?"},
                 new Choice() { Value = "What can I do if I think I've witnessed sexual harassment?"},
                 new Choice() { Value = "I want to know more about issues related to Orientation camps"},
-                new Choice() { Value = "I think I am an expert of sexual harassment. Test me!"}
+                new Choice() { Value = "I think I am an expert at understanding sexual harassment. Test me!"}
 
             };
 

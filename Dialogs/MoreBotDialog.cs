@@ -71,7 +71,7 @@ namespace Microsoft.BotBuilderSamples
                     MessageFactory.Text($"#ID:4-3-1-3-1"), cancellationToken);}
 
                     await stepContext.Context.SendActivityAsync(
-                                    MessageFactory.Text("Your information is safe with us. Me2 Chatbot has built the system so that the developers cannot see what information you input. Only the school will know your documentation details when you decide to report it."), cancellationToken);
+                                    MessageFactory.Text("All the information here has been referenced from the Equal Opportunities Commission Hong Kong and Callisto. You can use the following links to learn more about them: -  Home - Equal Opportunities Commission (eoc.org.hk) - Callisto - The way you are supported to tell your story can make all the difference (projectcallisto.org)"), cancellationToken);
                     break;
                 default:
                     break;

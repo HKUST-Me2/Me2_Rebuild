@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("👀Are you seeing someone who is being sexually harassed" +
-                                            " or is there someone who asks you for help ?"),
+                                            " or is there someone asking you for help ?"),
                 RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card."),
                 Choices = ByStanderChooseCardOptions,
                 Style = ListStyle.HeroCard,
@@ -75,8 +75,8 @@ namespace Microsoft.BotBuilderSamples
                 if (Globals.DEBUG_MODE==1) {await stepContext.Context.SendActivityAsync(
                 MessageFactory.Text($"#ID:4-2-2-4-2-2"), cancellationToken);}
 
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Confront the harasser if circumstances allow," +
-                        " and point out what he/she is doing is inappropriate and may amount to sexual harassment."), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("1. Create a distraction. Try interrupting the harassment, or distract those taking part in the harassment. \n "+" 2. Ask directly. Talk directly with the person who is being harassed, \n " +
+                        " 3. Refer to an authority. \n "+" 4. Enlist others to support you. \n "), cancellationToken);
             }
             else  // It is "Ask"
             {

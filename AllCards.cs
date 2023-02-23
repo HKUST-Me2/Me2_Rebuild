@@ -28,9 +28,9 @@ namespace Microsoft.BotBuilderSamples
             var heroCard = new HeroCard
             {
                 Text = "I received a friend request from a stranger on Skype." +
-                "I thought I was getting response from my post at Language Exchange." +
+                "I thought I was getting response from my post at a Language Exchange." +
                 " We chatted briefly then he asked for a video call. The screen was dark, though " +
-                "the audio was normal. He said it was technical problems. A few minutes later, he suddenly said" +
+                "the audio was normal. He said it was a technical problem. A few minutes later, he suddenly said" +
                 ", You are so beautiful.” Then I could see him on screen. He was masturbating and his lower " +
                 "part was naked. I was shocked and offended, and immediately turned off Skype and blocked him. " +
                 "At that very moment, I was in the library, I was terrified and worried that it might have been " +
@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "Sometimes during a class of my major, two male students sitting in front of me liked talking nonsense. They once said that no one wanted me even I paid for it, and no one wanted me even I whored. They also called one of my friends intersex ... They always talked nonsense and found it fun.” (Female, Undergraduate)"
+                 Text = "During one of my classes, I had two male students sitting in front of me who liked talking nonsense. They once said that no one wanted me even if I paid for it, and no one wanted me even if I whored. They also called one of my friends intersex ... They always talked nonsense and found it fun.” (Female, Undergraduate)"
 
             };
             return heroCard;
@@ -86,7 +86,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "“I took part in an entrepreneurship competition organised by the university. Three mentors from various fields gave us advice. I met a business incubator on behalf of my team in a coffee shop. He started talking weird, like all of sudden grabbed my hand ... I pushed his hand away, I told him I was recording and asked him to continue our discussion ... then he behaved himself” ... “While we were leaving the coffee shop, he run his hand over my hair all along to my back. I asked what he was doing. He said ‘I thought you were more open-minded’. ... After that, he often called or texted me at three o’clock in the morning to talk about the competition ...” (Female, Undergraduate, Interview #2)"
+                Text = "“I took part in an entrepreneurship competition organised by the university. Three mentors from various fields gave us advice. I met a business incubator on behalf of my team in a coffee shop. He started talking in a weird manner, and all of a sudden grabbed my hand ... I pushed his hand away, I told him I was recording and asked him to continue our discussion ... then he behaved himself” ... “While we were leaving the coffee shop, he run his hand over my hair till my back. I asked him what was he doing to which he replied ‘I thought you were more open-minded’. ... After that, he often called or texted me at three o’clock in the morning to talk about the competition ...” (Female, Undergraduate, Interview #2)"
 
             };
             return heroCard;
@@ -96,7 +96,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "“I still remembered what happened last year during my overseas internship … A customer praised me in front of my male co-ordinator, that is my supervisor… The male supervisor touched my back like this for seconds, saying ‘I know she is smart.’ I was very uncomfortable at that moment, felt like he was taking advantage of me. Even you may think it’s cultural difference, I did not think it was necessary to touch me or my back if you wanted to praise me. It was so intimate, like how your boyfriend hug around your waist … for approximately five seconds … I was terrified and didn’t know what to do.” (Female, Undergraduate, Interview #25)"
+                Text = "“I still remember an incident from my overseas internship last year … A customer praised me in front of my male co-ordinator, who was my supervisor… The male supervisor touched my back like this for seconds, saying ‘I know she is smart.’ I was very uncomfortable at that moment and felt like he was taking advantage of me. Even though there might be cultural differences, I did not think it was necessary to touch me or my back if you wanted to praise me. It was so intimate, like how your boyfriend would hug around your waist … for approximately five seconds … I was terrified and didn’t know what to do.” (Female, Undergraduate, Interview #25)"
             };
             return heroCard;
         }
@@ -104,7 +104,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "“I was wearing a skirt that day. When I was having my drinks, a male student came over and put his hand on my thigh, asking if I felt cold. I didn’t know how to react. He kept his hand on my thigh until I said I did not feel cold. After that, I noticed the guy did that to other female students in class all the time, regardless he knows them well or not.” (Female, Undergraduate)"
+                Text = "“I was wearing a skirt one day when while having my drinks, a male student came over and put his hand on my thigh, asking if I felt cold. I didn’t know how to react. He kept his hand on my thigh till I said I wasn't. After that, I noticed the guy did that to other female students in class all the time, regardless of the fact that if he knew them well or not.” (Female, Undergraduate)"
 
             };
             return heroCard;
@@ -122,7 +122,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "One night, some classmates and the interviewee drank chill in a dorm room. “A guy sat next to me but we could barely see each other in dim light ... He was gutsy to touch me, grope my leg and take my hand. He even whispered to my ear, asking if I can sleep with him that night ...” (Female, Postgraduate, Interview #9)"
+                Text = "One night, some classmates and the interviewee drank in a dorm room. “A guy sat next to me but we could barely see each other in the dim light ... He touched me, grope my leg and took my hand. He even whispered to my ear, asking if I can sleep with him that night ...” (Female, Postgraduate, Interview #9)"
 
             };
             return heroCard;
@@ -142,7 +142,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "“The game ‘Once in a lifetime’ is originally designed to encourage students to think out of the box as they now study in university rather secondary school … All boys and girls played together … When I took off my eye mask ... I saw the helpers covering some students with towels ... I guessed those students had taken off their clothes. I clearly remembered the moment I opened my eyes, there were a bunch of helpers sitting in front of me, which meant they were watching us playing ... After that, I overheard a guy saying, ‘the one in group six is hot!’” (Female, Undergraduate)"
+                Text = "“The game ‘Once in a lifetime’ is originally designed to encourage students to think out of the box as they now study in university rather secondary school … All boys and girls play it together … When I took off my eye mask ... I saw the helpers covering some students with towels ... I guessed those students had taken off their clothes. I clearly remembered the moment I opened my eyes, there were a bunch of helpers sitting in front of me, which meant they were watching us playing ... After that, I overheard a guy saying, ‘the one in group six is hot!’” (Female, Undergraduate)"
 
             };
             return heroCard;
@@ -152,7 +152,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "“A group of first years all packed into the tutor’s room, not a big room, but seemed to have one hundred-ish students there, it was packed and actually everyone was squeezed shoulder to shoulder. They were blindfolded to play a game, being guided as if they need to take off all the clothes, then a few first years wanted to opt out of the game. I heard that those first years were boycotted after that, so I thought the students were forced to play the game because of peer pressure.” (Female, Postgraduate)"
+                Text = "“A group of first years were packed into the tutor’s room, not a big room, but seemed to have one hundred-ish students there, and actually everyone was squeezed shoulder to shoulder. They were blindfolded to play a game, being guided as if they needed to take off all the clothes. Soon after a few first years wanted to opt out of the game. I heard that those first years were boycotted after that, so I thought the students were forced to play the game because of peer pressure.” (Female, Postgraduate)"
             };
             return heroCard;
 
@@ -162,7 +162,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "(The interviewee heard that there were first years and their seniors playing drinking games in the residential hall.) She heard that the game requires each player passing alcohol by their mouth. After drinking for a while, a second year male student took a female first year out. Some students went to a room to look for them, but the door was locked, so they stayed at the door. After a while, the girl came out in tears, asking female group leaders in another hall for help. It seemed that the guy had made out with the first year. This incident was on everyone’s lips, and became a big thing widely spreading over the residential hall. (Female, Undergraduate)"
+               Text = "(The interviewee heard that there were first years and their seniors playing drinking games in the residential hall.) She heard that the game required each player to pass alcohol by their mouth. After drinking for a while, a second-year male student took a female first-year out. Some students went to a room to look for them, but the door was locked, so they stayed at the door. After a while, the girl came out in tears, asking female group leaders in another hall for help. It seemed that the guy had made out with the first year. This incident was on everyone’s lips, and became a big thing widely spreading over the residential hall. (Female, Undergraduate)"
             };
             return heroCard;
         }
@@ -170,7 +170,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                Text = "(Some students joined the student activities in private outside Hong Kong.) “We were quarrelling in the hotel room. He said he had spent so much money to book this hotel for me. I told him I wanted to go back to my hotel, but then he pressed me on the bed, attempted to molest me. I shouted out loud, yelling that I wanted to go back to my hotel. The soundproof is poor. The staff at front desk heard the noise, came over and knocked the door, then the guy let me go.” (Others (Gender), Undergraduate)"
+                Text = "(Some students joined the student activities in private outside Hong Kong.) “We were quarrelling in the hotel room. He said he had spent so much money to book this hotel for me. I told him I wanted to go back to my hotel, but then he pressed me on the bed, attempted to molest me. I shouted out loud, yelling that I wanted to go back to my hotel. The soundproof was poor and soon the staff at front desk heard the noise, came over and knocked the door, then the guy let me go.” (Others (Gender), Undergraduate)"
             };
             return heroCard;
         }
@@ -562,7 +562,7 @@ namespace Microsoft.BotBuilderSamples
             var heroCard = new HeroCard
             {
                 Title = "💬REASSURE him/her!",
-                Text = "Reassure him / her.Sexual assault is NEVER the survivor’s fault. No one asks to be sexually assaulted by what they wear, say or do.Let the survivor know that only the perpetrator is to blame; The survivor needs to hear that fears, anxieties, guilt, and anger are normal, understandable and acceptable emotions; Remember, no one ever deserves to be abused or harassed.",
+               Text = "Reassure him / her. Sexual assault is NEVER the survivor’s fault. No one asks to be sexually assaulted by what they wear, say or do; Tell survivors that fears, anxieties, guilt, and anger are normal, understandable and acceptable emotions; Let the survivor know that only the perpetrator is to blame; Remember, no one ever deserves to be abused or harassed.",
             };
             return heroCard;
         }
@@ -575,9 +575,9 @@ namespace Microsoft.BotBuilderSamples
                 Text = "Be Patient. Don’t press for details – let your friend decide how much they want to share." +
                 "Ask them how you can help; Survivors have to struggle with complex decisions and " +
                 "feelings of powerlessness, trying to make decisions for them may only increase that sense of powerlessness. " +
-                "You can be supportive by helping your friend to identify all the available options and then " +
-                "help by supporting their decision - making process. The survivor can’t just “forget it” or just move on." +
-                "Recovery is a long term process and each individual moves at their own pace.",
+                "They can't just 'forget it' or just move on." +
+                "Recovery is a long term process and each individual moves at their own pace." +
+                "You can be supportive by helping your friend to identify all the available options and then help by supprting their decision-making process.",
             };
             return heroCard;
         }
