@@ -31,8 +31,8 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> QnAGetQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await stepContext.Context.SendActivityAsync(
-                MessageFactory.Text($"Entered the QnA maker diaglog"), cancellationToken);
+            // await stepContext.Context.SendActivityAsync(
+            //     MessageFactory.Text($"Entered the QnA maker diaglog"), cancellationToken);
 
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Whats your question?") }, cancellationToken);
         }
@@ -58,14 +58,14 @@ namespace Microsoft.BotBuilderSamples
 
             foreach (KnowledgeBaseAnswer answer in response.Value.Answers)
             {
-                await stepContext.Context.SendActivityAsync(
-                MessageFactory.Text($"Q:{question}"), cancellationToken);
+                // await stepContext.Context.SendActivityAsync(
+                // MessageFactory.Text($"Q:{question}"), cancellationToken);
                 
                 await stepContext.Context.SendActivityAsync(
-                MessageFactory.Text($"A:{answer.Answer}"), cancellationToken);
+                MessageFactory.Text($"{answer.Answer}"), cancellationToken);
 
-                await stepContext.Context.SendActivityAsync(
-                MessageFactory.Text($"({answer.Confidence})"), cancellationToken);
+                // await stepContext.Context.SendActivityAsync(
+                // MessageFactory.Text($"({answer.Confidence})"), cancellationToken);
             }
 
             var promptOptions = new PromptOptions
