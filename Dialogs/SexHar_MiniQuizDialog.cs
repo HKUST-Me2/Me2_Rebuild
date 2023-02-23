@@ -1,3 +1,4 @@
+
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // MiniQuiz Version
@@ -18,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class MiniQuizDialog : ComponentDialog
     {
-
+      
         private int randomized;
         private int score;
 
@@ -71,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
         public MiniQuizDialog()
             : base(nameof(MiniQuizDialog))
         {
-
+           
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -109,8 +110,8 @@ namespace Microsoft.BotBuilderSamples
         /// <param name="cancellationToken"></param>
         private string MiniQuizQuestionGeneration()
         {
-            randomized %= 6;
-            switch (randomized)
+            randomized %= 6; 
+            switch (randomized) 
             {
                 case 0:
                     //if (Globals.DEBUG_MODE==1) {await stepContext.Context.SendActivityAsync(
@@ -170,80 +171,80 @@ namespace Microsoft.BotBuilderSamples
             //randomized++;
         }
 
-        private string MiniQuizAnswerGeneration()
-        {
+    private string MiniQuizAnswerGeneration()
+    {
             //randomized %= 6;
-            switch ((randomized - 1) % 6)
+            switch ((randomized-1)%6) 
             {
                 case 0:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-1"), cancellationToken);
-                    }
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-1"), cancellationToken);
+            }
 
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ1), cancellationToken);
-                    return miniquizQ1Ans;
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ1), cancellationToken);
+            return miniquizQ1Ans;
 
                 case 1:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-5"), cancellationToken);
-                    }
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-5"), cancellationToken);
+            }
 
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ2), cancellationToken);
-                    return miniquizQ2Ans;
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ2), cancellationToken);
+            return miniquizQ2Ans;
 
                 case 2:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-9"), cancellationToken);
-                    }
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-9"), cancellationToken);
+            }
 
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ3), cancellationToken);
-                    return miniquizQ3Ans;
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ3), cancellationToken);
+            return miniquizQ3Ans;
 
                 case 3:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-13"), cancellationToken);
-                    }
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-13"), cancellationToken);
+            }
 
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ4), cancellationToken);
-                    return miniquizQ4Ans;
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ4), cancellationToken);
+            return miniquizQ4Ans;
 
                 case 4:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-17"), cancellationToken);
-                    }
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-17"), cancellationToken);
+            }
 
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ5), cancellationToken);
-                    return miniquizQ5Ans;
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ5), cancellationToken);
+            return miniquizQ5Ans;
 
 
                 // IDK #ID:4-2-2-5-21,22,23,24 is missing  
                 case 5:
                     if (Globals.DEBUG_MODE == 1)
-                    {
-                        //await stepContext.Context.SendActivityAsync(
-                        //    MessageFactory.Text($"#ID:4-2-2-5-5-25"), cancellationToken);
-                    }
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ6), cancellationToken);
-                    return miniquizQ6Ans;
+            {
+                //await stepContext.Context.SendActivityAsync(
+                //    MessageFactory.Text($"#ID:4-2-2-5-5-25"), cancellationToken);
+            }
+            //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizQ6), cancellationToken);
+            return miniquizQ6Ans;
 
-                default:
+            default:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text("Wrong number lol"), cancellationToken);
                     return "Wrong Randomized Number";
 
-            }
         }
+    }
 
-        private async Task<DialogTurnResult> FirstQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+    private async Task<DialogTurnResult> FirstQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
 
             // Some initialization for miniquiz Part.
@@ -275,7 +276,7 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> SecondQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-
+          
 
             // Giving response for first questions' answer (i.e. correct or not)
             if (((FoundChoice)stepContext.Result).Value == "Yes")
@@ -318,7 +319,7 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> ThirdQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // _logger.LogInformation("MainDialog.ThirdQuestion");
+           // _logger.LogInformation("MainDialog.ThirdQuestion");
 
             // Giving response for first questions' answer (i.e. correct or not)
             if (((FoundChoice)stepContext.Result).Value == "Yes")
@@ -490,10 +491,10 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> LastAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // _logger.LogInformation("MainDialog.LastAnswer");
+           // _logger.LogInformation("MainDialog.LastAnswer");
 
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((FoundChoice)stepContext.Result).Value == "Yes") 
             {
                 // Wrong Answer
                 //MiniQuiz_WrongMsg(stepContext, cancellationToken);
@@ -509,10 +510,10 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
 
             // print out score
-            if (score <= 3)
+            if (score <= 3 )
             {
                 // correct more than half
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is " + score + ". You can definitely do better! Go learn more about sexual harassment and try again later to see if you get a higher score!"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +". You can definitely do better! Go learn more about sexual harassment and try again later to see if you get a higher score!"), cancellationToken);
 
             }
             else if (score <= 5)
@@ -552,17 +553,17 @@ namespace Microsoft.BotBuilderSamples
             switch (CorrectRnd)
             {
                 case 0:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizCorrect1), cancellationToken);
-                    return miniquizCorrect1;
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizCorrect1), cancellationToken);
+                return miniquizCorrect1;
 
                 case 1:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizCorrect2), cancellationToken);
-                    return miniquizCorrect2;
-
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizCorrect2), cancellationToken);
+                return miniquizCorrect2;
+ 
                 default:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizCorrect3), cancellationToken);
                     return miniquizCorrect3;
-
+     
             }
         }
 
@@ -579,21 +580,21 @@ namespace Microsoft.BotBuilderSamples
             switch (WrongRnd)
             {
                 case 0:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong1), cancellationToken);
-                    return miniquizWrong1;
-
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong1), cancellationToken);
+                return miniquizWrong1;
+                 
                 case 1:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong2), cancellationToken);
-                    return miniquizWrong2;
-
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong2), cancellationToken);
+                return miniquizWrong2;
+                
                 case 2:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong3), cancellationToken);
-                    return miniquizWrong3;
-
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong3), cancellationToken);
+                return miniquizWrong3;
+                   
                 default:
-                    //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong4), cancellationToken);
-                    return miniquizWrong4;
-
+                //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizWrong4), cancellationToken);
+                return miniquizWrong4;
+                 
             }
         }
 
@@ -612,22 +613,22 @@ namespace Microsoft.BotBuilderSamples
                 case 0:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNext1), cancellationToken);
                     return miniquizNext1;
-
+                    
                 case 1:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNext2), cancellationToken);
                     return miniquizNext2;
-
+                  
                 case 2:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNext3), cancellationToken);
                     return miniquizNext3;
-
+               
                 default:
                     //await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNext4), cancellationToken);
                     return miniquizNext4;
-
+                  
             }
         }
 
-
+        
     }
 }

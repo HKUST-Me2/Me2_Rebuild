@@ -9,6 +9,14 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Microsoft.BotBuilderSamples.Dialogs;
+using Microsoft.BotBuilderSamples.Utilities;
+using Microsoft.Bot.Builder.BotFramework;
+
+
+
+
+
 namespace Microsoft.BotBuilderSamples
 {
     public class Startup
@@ -16,6 +24,8 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson();
+
             services.AddHttpClient().AddControllers().AddNewtonsoftJson();
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
@@ -23,6 +33,8 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
@@ -32,6 +44,12 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
+
+            // Register LUIS recognizer
+            services.AddSingleton<ToDoLUISRecognizer>();
+
+            // Register Cosmos DB Client
+            services.AddSingleton<CosmosDBClient>();
 
             services.AddSingleton<MainDialog>();
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.

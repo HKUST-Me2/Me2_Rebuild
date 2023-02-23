@@ -1,3 +1,4 @@
+
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 static class Globals
 {
     // global int
-    public static int DEBUG_MODE = 0;
+    public static int DEBUG_MODE =0;
     public static string prompt_text = "What can I help you? You can click or type the card name";
     public static string reprompt_text = "That was not a valid choice, please click on the buttons or number from 1 to 9.";
     public static bool CameBack = false;
