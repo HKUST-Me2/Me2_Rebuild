@@ -77,7 +77,8 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
-                 Text = "During one of my classes, I had two male students sitting in front of me who liked talking nonsense. They once said that no one wanted me even if I paid for it, and no one wanted me even if I whored. They also called one of my friends intersex ... They always talked nonsense and found it fun.” (Female, Undergraduate)"
+
+                Text = "During one of my classes, I had two male students sitting in front of me who liked talking nonsense. They once said that no one wanted me even if I paid for it, and no one wanted me even if I whored. They also called one of my friends intersex ... They always talked nonsense and found it fun.” (Female, Undergraduate)"
 
             };
             return heroCard;
@@ -162,7 +163,9 @@ namespace Microsoft.BotBuilderSamples
         {
             var heroCard = new HeroCard
             {
+
                Text = "(The interviewee heard that there were first years and their seniors playing drinking games in the residential hall.) She heard that the game required each player to pass alcohol by their mouth. After drinking for a while, a second-year male student took a female first-year out. Some students went to a room to look for them, but the door was locked, so they stayed at the door. After a while, the girl came out in tears, asking female group leaders in another hall for help. It seemed that the guy had made out with the first year. This incident was on everyone’s lips, and became a big thing widely spreading over the residential hall. (Female, Undergraduate)"
+
             };
             return heroCard;
         }
@@ -562,7 +565,9 @@ namespace Microsoft.BotBuilderSamples
             var heroCard = new HeroCard
             {
                 Title = "💬REASSURE him/her!",
+
                Text = "Reassure him / her. Sexual assault is NEVER the survivor’s fault. No one asks to be sexually assaulted by what they wear, say or do; Tell survivors that fears, anxieties, guilt, and anger are normal, understandable and acceptable emotions; Let the survivor know that only the perpetrator is to blame; Remember, no one ever deserves to be abused or harassed.",
+            
             };
             return heroCard;
         }
@@ -615,8 +620,9 @@ namespace Microsoft.BotBuilderSamples
         {
             var animationCard = new AnimationCard
             {
-                Title = "🎮Welcome to MiniQuiz Game",
-                Subtitle = "Have Fun!😸",
+                Title = "🎮 Mini quiz (ask for yes/no response)",
+                Text = "The following quiz has been created using the help of the sources on this website:" +
+                            "https://sfgov.org/dosw/sexual-harassment-frequently-asked-questions",
                 Image = new ThumbnailUrl
                 {
                     Url = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",

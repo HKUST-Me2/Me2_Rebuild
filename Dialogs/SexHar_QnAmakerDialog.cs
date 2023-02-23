@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace Microsoft.BotBuilderSamples
             // await stepContext.Context.SendActivityAsync(
             //     MessageFactory.Text($"Entered the QnA maker diaglog"), cancellationToken);
 
+
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Whats your question?") }, cancellationToken);
         }
         private async Task<DialogTurnResult> QnAProcess(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -58,6 +59,7 @@ namespace Microsoft.BotBuilderSamples
 
             foreach (KnowledgeBaseAnswer answer in response.Value.Answers)
             {
+
                 // await stepContext.Context.SendActivityAsync(
                 // MessageFactory.Text($"Q:{question}"), cancellationToken);
                 
@@ -66,6 +68,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // await stepContext.Context.SendActivityAsync(
                 // MessageFactory.Text($"({answer.Confidence})"), cancellationToken);
+
             }
 
             var promptOptions = new PromptOptions
@@ -92,6 +95,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Exit the dialog
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"⌨️Type anything to go back."), cancellationToken);
             return await stepContext.EndDialogAsync();
         }
 
