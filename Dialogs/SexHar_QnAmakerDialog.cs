@@ -89,7 +89,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 case "Ask another question":
                     return await stepContext.BeginDialogAsync(nameof(QnADialog), null, cancellationToken);
-                case "Quit QnA dialog":
+                case "I want to leave now. I will come back if I have any new questions!":
                 default:
                     break;
             }
@@ -104,7 +104,7 @@ namespace Microsoft.BotBuilderSamples
             var cardOptions = new List<Choice>()
             {
                 new Choice() { Value = "Ask another question"},
-                new Choice() { Value = "Quit QnA dialog"},
+                new Choice() { Value = "I want to leave now. I will come back if I have any new questions!"},
             };
 
             return cardOptions;
