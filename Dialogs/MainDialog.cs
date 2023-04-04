@@ -106,7 +106,6 @@ namespace Microsoft.BotBuilderSamples
                 case "I want to know more about sexual harassment":
                     return await stepContext.BeginDialogAsync(nameof(KnowMoreSexHarDialog), null, cancellationToken);
                 case "I want to know more about you":
-                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"entered case 2"),cancellationToken);
                     return await stepContext.BeginDialogAsync(nameof(MoreBotDialog), null, cancellationToken);
                 // case "I want to record a case": disable documentation
                 //     return await stepContext.BeginDialogAsync(nameof(DocumentationDialog), null, cancellationToken);

@@ -99,9 +99,11 @@ namespace Microsoft.BotBuilderSamples
                 await stepContext.Context.SendActivityAsync(ByStanderAskReply, cancellationToken);
             }
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
-            return await stepContext.EndDialogAsync();
+            // return await stepContext.EndDialogAsync();
+
+            return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
 

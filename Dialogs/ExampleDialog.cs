@@ -52,9 +52,10 @@ namespace Microsoft.BotBuilderSamples
             // Send the card(s) to the user as an attachment to the activity
             await turnContext.Context.SendActivityAsync(reply, cancellationToken);
 
-            await turnContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+            // await turnContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
-            return await turnContext.EndDialogAsync();
+            // return await turnContext.EndDialogAsync();
+            return await turnContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
         
