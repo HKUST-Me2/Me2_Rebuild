@@ -533,10 +533,11 @@ namespace Microsoft.BotBuilderSamples
             // Sending response of Thanks"
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizEnding), cancellationToken);
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
 
-            return await stepContext.EndDialogAsync();
+            // return await stepContext.EndDialogAsync();
+            return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
         private string MiniQuiz_CorrectMsg()

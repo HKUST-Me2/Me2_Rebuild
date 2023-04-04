@@ -98,9 +98,11 @@ namespace Microsoft.BotBuilderSamples
             // Give the user instructions about what to do next
             //await stepContext.Context.SendActivityAsync(MessageFactory.Text("Type anything to see another card."), cancellationToken);
 
-            await turnContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+            // await turnContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
-            return await turnContext.EndDialogAsync();
+            // return await turnContext.EndDialogAsync();
+
+            return await turnContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
         

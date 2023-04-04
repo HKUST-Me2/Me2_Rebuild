@@ -141,9 +141,11 @@ namespace Microsoft.BotBuilderSamples
             await stepContext.Context.SendActivityAsync(reply, cancellationToken);
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text("⌨️Type anything to go back."), cancellationToken);
 
-            return await stepContext.EndDialogAsync();
+            // return await stepContext.EndDialogAsync();
+
+            return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
         private IList<Choice> GetChoices()

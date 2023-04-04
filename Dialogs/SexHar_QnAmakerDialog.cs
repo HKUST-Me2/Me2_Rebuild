@@ -95,8 +95,9 @@ namespace Microsoft.BotBuilderSamples
             }
 
             // Exit the dialog
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"⌨️Type anything to go back."), cancellationToken);
-            return await stepContext.EndDialogAsync();
+            // await stepContext.Context.SendActivityAsync(MessageFactory.Text($"⌨️Type anything to go back."), cancellationToken);
+            // return await stepContext.EndDialogAsync();
+            return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
         }
 
         private IList<Choice> GetQnAChoices()

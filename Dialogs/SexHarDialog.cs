@@ -75,6 +75,7 @@ namespace Microsoft.BotBuilderSamples
                     break;
             }
             return await stepContext.EndDialogAsync(); 
+
         }
 
         private IList<Choice> GetChoices3()
