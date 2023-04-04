@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 Prompt = MessageFactory.Text("👀Are you seeing someone who is being sexually harassed" +
                                             " or is there someone asking you for help ?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card."),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = ByStanderChooseCardOptions,
                 Style = ListStyle.HeroCard,
             };

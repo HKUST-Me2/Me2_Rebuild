@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("What kind of stories do you want to know? Note that these stories are all from the research of Equal Opportunity Committee."),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice."),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = GetChoices(),
                 Style = ListStyle.HeroCard,
             };

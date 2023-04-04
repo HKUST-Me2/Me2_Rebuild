@@ -150,7 +150,7 @@ namespace Microsoft.BotBuilderSamples.Utilities
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("Is there any parts that needs to be modified?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card."),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided earlier?"),
                 Choices = ConfirmResponseChoice,
                 Style = ListStyle.HeroCard,
             };

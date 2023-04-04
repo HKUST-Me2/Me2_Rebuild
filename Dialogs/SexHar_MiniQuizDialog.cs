@@ -266,7 +266,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
@@ -309,7 +309,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
@@ -352,7 +352,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
@@ -395,7 +395,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
@@ -439,7 +439,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
@@ -481,7 +481,7 @@ namespace Microsoft.BotBuilderSamples
             var options = new PromptOptions()
             {
                 Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("That was not a valid choice, please select an option from the card. (Yes/No)"),
+                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = MiniQuizYesNo,
                 Style = ListStyle.HeroCard,
             };
