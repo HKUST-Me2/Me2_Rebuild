@@ -566,7 +566,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 Title = "💬REASSURE him/her!",
 
-               Text = "Reassure him / her. Sexual assault is NEVER the survivor’s fault. No one asks to be sexually assaulted by what they wear, say or do; Tell survivors that fears, anxieties, guilt, and anger are normal, understandable and acceptable emotions; Let the survivor know that only the perpetrator is to blame; Remember, no one ever deserves to be abused or harassed.",
+               Text = "Reassure him / her. Sexual assault is NEVER the survivor’s fault. No one asks to be sexually assaulted by what they wear, say or do; Tell survivors that fear, anxietY,guilt, and anger are normal, understandable and acceptable emotions; Let the survivor know that only the perpetrator is to blame; Remember, no one ever deserves to be abused or harassed.",
             
             };
             return heroCard;

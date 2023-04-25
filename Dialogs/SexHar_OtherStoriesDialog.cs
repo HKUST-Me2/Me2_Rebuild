@@ -40,7 +40,7 @@ namespace Microsoft.BotBuilderSamples
             // PromptOptions also contains the list of choices available to the user.
             var options = new PromptOptions()
             {
-                Prompt = MessageFactory.Text("What kind of stories do you want to know? Note that these stories are all from the research of Equal Opportunity Committee."),
+                Prompt = MessageFactory.Text("Would you like to know some stories about sexual harassment ? We have a list of stories for you to choose from. Note that these stories are all from the research of Equal Opportunity Committee."),
                 RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = GetChoices(),
                 Style = ListStyle.HeroCard,

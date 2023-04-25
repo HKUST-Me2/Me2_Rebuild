@@ -55,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
             // Creating a hero card
             var options = new PromptOptions()
             {
-                Prompt = MessageFactory.Text("👀Are you seeing someone who is being sexually harassed" +
+                Prompt = MessageFactory.Text("👀Have you seen someone being sexually harassed or is there someone asking you for help ?" +
                                             " or is there someone asking you for help ?"),
                 RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
                 Choices = ByStanderChooseCardOptions,
