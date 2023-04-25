@@ -13,7 +13,7 @@ static class Globals
 {
     // global int
     public static int DEBUG_MODE =0;
-    public static string prompt_text = "What can I help you? You can click or type the card name";
+    public static string prompt_text = "What can I help you today? You can click or type the card name";
     public static string reprompt_text = "Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided earlier?";
     public static bool CameBack = false;
 }

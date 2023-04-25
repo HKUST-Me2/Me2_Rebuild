@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
         const string miniquizQ5 = "Sexual harassment never happens between people of the same sex.";
         const string miniquizQ5Ans = "Sexual harassment can take place between men and women, among men, or among women. " +
                                 "Gender is irrelevant as to whether an act amounts to sexual harassment.";
-        const string miniquizQ6 = "Some people mean “yes” when they say “no”.";
+        const string miniquizQ6 = "When it comes to consent, some people mean “yes” when they say “no”.";
         const string miniquizQ6Ans = "When a person looks offended, pushes you away, or explicitly says “no” to you, " +
                                 "it is a clear sign that he/she does not welcome whatever you are doing. When you are unsure, " +
                                 "take the time to communicate with him/her, and always obtain consent before engaging in any behaviour " +
@@ -513,7 +513,7 @@ namespace Microsoft.BotBuilderSamples
             if (score <= 3 )
             {
                 // correct more than half
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +" out of 6. You can definitely do better! Go learn more about sexual harassment and try again later to see if you get a higher score!"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +" out of 6. You can definitely do better! Let's learn more about sexual harassment using Me2 and try again later to see if you get a higher score!"), cancellationToken);
 
             }
             else if (score <= 5)
