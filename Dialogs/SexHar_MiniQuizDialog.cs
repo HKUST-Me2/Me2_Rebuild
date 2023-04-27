@@ -26,15 +26,14 @@ namespace Microsoft.BotBuilderSamples
         //MiniQuiz Questions and answers.
         #region StringDeclaration
         const string miniquizQ1 = "It is not sexual harassment if it was just a one-off incident.";
-        const string miniquizQ1Ans = "Under the law, whether an act amounts to sexual harassment has nothing to do with its frequency. " +
+        const string miniquizQ1Ans = "Under the law, whether an act amounts to sexual harassment has nothing to do with its frequency." +
                                 "An act can constitute sexual harassment even if it happened only once.";
         const string miniquizQ2 = "It is always a “she said, he said” situation. It is difficult to prove sexual harassment, and harassers get off the hook all the time.";
-        const string miniquizQ2Ans = "While the claimant of a sexual harassment claim has the burden of proof to support his/her claim with " +
-                                "reasons and evidence in legal proceedings, such claims are civil in nature, meaning that the standard of proof " +
-                                "adopted by the Court would not be “beyond reasonable doubt” as in criminal cases, but “on the balance of probabilities”. " +
-                                "In adopting this standard of proof, the Court would evaluate the evidence presented by both the claimant and the respondent " +
-                                "before determining whose account is more credible, and whether to accept the issues raised by the claimant and his/her claim. " +
-                                "The standard of proof is therefore considerably lower than that in criminal proceedings.";
+        const string miniquizQ2Ans = "The burden of proof in a sexual harassment claim rests with the claimant, who must provide reasons and evidence to support their claim." +
+"·Sexual harassment claims are civil cases, which means that the standard of proof used by the court is 'on the balance of probabilities,' rather than 'beyond reasonable doubt' used in criminal cases." +
+"·The court will evaluate the evidence presented by both the claimant and the respondent before determining whose account is more credible." +
+"·The standard of proof in a sexual harassment claim is lower than in criminal proceedings."+
+"It's important to understand these key differences when considering a sexual harassment claim and seeking justice for the victim.";
         const string miniquizQ3 = "It is not sexual harassment if the harasser did not mean it.";
         const string miniquizQ3Ans = "Intent is not a necessary element of sexual harassment under the law. A person making a sexual joke, " +
                                 "for example, may consider it innocuous or a common practice in certain workplaces, but as long as it is " +
