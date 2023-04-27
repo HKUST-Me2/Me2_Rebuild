@@ -110,7 +110,7 @@ namespace Microsoft.BotBuilderSamples
                 // case "I want to record a case": disable documentation
                 //     return await stepContext.BeginDialogAsync(nameof(DocumentationDialog), null, cancellationToken);
                     
-                case "I just want to play with you":
+                case "I just want to explore what the bot can do":
                     return await stepContext.BeginDialogAsync(nameof(QnADialog), null, cancellationToken);
                     
                 default:
@@ -125,7 +125,7 @@ namespace Microsoft.BotBuilderSamples
                 new Choice() { Value = "I want to know more about sexual harassment"},
                 new Choice() { Value = "I want to know more about you"},
                 // new Choice() { Value = "I want to record a case"}, disable documentation
-                new Choice() { Value = "I just want to play with you"},
+                new Choice() { Value = "I just want to explore what the bot can do"},
             };
 
             return cardOptions;

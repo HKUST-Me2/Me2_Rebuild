@@ -23,7 +23,7 @@
         },
         {
             "type": "TextBlock",
-            "text": "- Writing can help you make sure you don’t forget certain details.\r - Writing can be a way to process trauma.\r - It can help you share what happened later with an attorney, therapist, friend, or your school.\r - It can be a helpful starting point for a declaration or other legal statement, including a Victim Impact Statement, Restraining Orders, or a Title IX closing or opening statement. \r - It can help you report to police, if you decide to move forward with a criminal complaint.",
+            "text": "- Writing can help you make sure you don’t forget certain details.\r - Writing can be a way to process trauma.\r - It can help you share what happened later with an attorney, therapist, friend, or your school.\r - It can be a helpful starting point for a declaration or other legal statement, including a Victim Impact Statement, Restraining Orders, or a Title IX closing or opening statement[Title IX is a law meant to ensure equity between men and women in education, covering most schools and universities. It's origin is from the US]. \r - It can help you report to police, if you decide to move forward with a criminal complaint.",
             "isVisible": false,
             "id": "textToToggle3",
             "wrap": true
@@ -37,7 +37,7 @@
         },
         {
             "type": "TextBlock",
-            "text": "- It may get into the wrong hands - someone you don’t trust may see it.\r - You may risk weakening a legal argument down the road.\r - If you admit to alcohol or drug use in writing, it could potentially be used against you.\r - If you decided to proceed with a legal action, your writing could be subpoenaed (and ultimately viewed by the perpetrator and their attorney).\r - It could be triggering if you are going back and forth and challenging your own versions. Remember that the point of writing down the incident is to get it out of your memory and not to question or relive it.",
+            "text": "- It may get into the wrong hands - someone you don’t trust may see it.\r - You may risk weakening a legal argument down the road.\r - If you admit to alcohol or drug use in writing, it could potentially be used against you.\r - If you decided to proceed with a legal action, your writing could be subpoenaed (and ultimately viewed by the perpetrator and their attorney) [subpeona: a writ ordering summoning person to attend a court].\r - It could be triggering if you are going back and forth and challenging your own versions. Remember that the point of writing down the incident is to get it out of your memory and not to question or relive it.",
             "isVisible": false,
             "id": "textToToggle5",
             "wrap": true

@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
 
         private const string InfoMessage = "We care a lot about confidentiality. " +
                                             " **ONLY you** can access the chats unless you choose to connect with the University. " +
-                                            "Please also note that the information I provide is for **informational purpose** only. " +
+                                            "Please also note that the information I provide is for **informational purposes within the bot only.** " +
                                             "Consult an attorny for legal advice.";
 
         protected override async Task OnMembersAddedAsync(

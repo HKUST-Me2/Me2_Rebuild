@@ -22,6 +22,7 @@ namespace Microsoft.BotBuilderSamples
       
         private int randomized;
         private int score;
+        private bool IsGoBack;
 
         //MiniQuiz Questions and answers.
         #region StringDeclaration
@@ -44,7 +45,7 @@ namespace Microsoft.BotBuilderSamples
         const string miniquizQ5 = "Sexual harassment never happens between people of the same sex.";
         const string miniquizQ5Ans = "Sexual harassment can take place between men and women, among men, or among women. " +
                                 "Gender is irrelevant as to whether an act amounts to sexual harassment.";
-        const string miniquizQ6 = "Some people mean “yes” when they say “no”.";
+        const string miniquizQ6 = "When it comes to consent, some people mean “yes” when they say “no”.";
         const string miniquizQ6Ans = "When a person looks offended, pushes you away, or explicitly says “no” to you, " +
                                 "it is a clear sign that he/she does not welcome whatever you are doing. When you are unsure, " +
                                 "take the time to communicate with him/her, and always obtain consent before engaging in any behaviour " +
@@ -74,8 +75,10 @@ namespace Microsoft.BotBuilderSamples
            
             // Define the main dialog and its related components.
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
+                Initialization,
                 FirstQuestion,
                 SecondQuestion,
                 ThirdQuestion,
@@ -243,276 +246,409 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 
+        private async Task<DialogTurnResult> Initialization(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            IsGoBack = false;
+            score = 0;
+            return await stepContext.NextAsync();
+        }
     private async Task<DialogTurnResult> FirstQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
 
             // Some initialization for miniquiz Part.
-            score = 0;
+            
+            
             await stepContext.Context.SendActivityAsync(MiniQuizWelcoming(), cancellationToken);
             //MiniQuizWelcoming(stepContext,cancellationToken);       // Welcoming user
             Random rnd = new Random();                              // Sending Miniquiz Questions in a simple randomized order. 
             randomized = rnd.Next(6);                               // Randomize an integer, while 0 <= randomized < 6
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
-
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            if (IsGoBack)
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
-            };
-            // Creating a hero card
-            var options = new PromptOptions()
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
+            }
+            else
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
+            }
+            IsGoBack = false;
+            List<CardAction> cardActions = new List<CardAction>()
+            {
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
+            };
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
+            {
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> SecondQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-          
-
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "Skip")
+            {
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (! IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            
+            if (IsGoBack)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
             }
             else
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             }
-
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
-            // Sending response of "NEXT" + "Question"
-            //MiniQuiz_NextMsg(stepContext, cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
+            IsGoBack = false;
+            
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
 
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            List<CardAction> cardActions = new List<CardAction>()
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
             };
-            // Creating a hero card
-            var options = new PromptOptions()
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> ThirdQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-           // _logger.LogInformation("MainDialog.ThirdQuestion");
-
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "Skip")
+            {
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (!IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            if (IsGoBack)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
             }
             else
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             }
+            IsGoBack = false;
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
-            // Sending response of "NEXT" + "Question"
-            //MiniQuiz_NextMsg(stepContext, cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
 
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            List<CardAction> cardActions = new List<CardAction>()
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
             };
-            // Creating a hero card
-            var options = new PromptOptions()
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> FourthQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            //_logger.LogInformation("MainDialog.FourthQuestion");
-
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "Skip")
+            {
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (!IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            if (IsGoBack)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
             }
             else
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             }
+            IsGoBack = false;
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
-            // Sending response of "NEXT" + "Question"
-            //MiniQuiz_NextMsg(stepContext, cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
 
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            List<CardAction> cardActions = new List<CardAction>()
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
             };
-            // Creating a hero card
-            var options = new PromptOptions()
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> FifthQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            //_logger.LogInformation("MainDialog.FifthQuestion");
-
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "Skip")
+            {
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (!IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            if (IsGoBack)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
             }
             else
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             }
+            IsGoBack = false;
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
-            // Sending response of "NEXT" + "Question"
-            //MiniQuiz_NextMsg(stepContext, cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
-
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_NextMsg()), cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
 
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            List<CardAction> cardActions = new List<CardAction>()
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
             };
-            // Creating a hero card
-            var options = new PromptOptions()
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> SixQuestion(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            //_logger.LogInformation("MainDialog.SixQuestion");
-
             // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes")
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "Skip")
+            {
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
+            }
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (!IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
+
+            if (IsGoBack)
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"), cancellationToken);
             }
             else
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNextLast), cancellationToken);
             }
+            IsGoBack = false;
 
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
-            // Sending response of "NEXT" + "Question"
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(miniquizNextLast), cancellationToken);
-            //MiniQuizQuestionGeneration(stepContext, cancellationToken);
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizQuestionGeneration()), cancellationToken);
 
-            // A List of Yes/ No, which can be chosen by user.
-            var MiniQuizYesNo = new List<Choice>()
+            List<CardAction> cardActions = new List<CardAction>()
             {
-                new Choice() { Value = "Yes", Synonyms = new List<string>() { "Yes" } },
-                new Choice() { Value = "No", Synonyms = new List<string>() { "No" } },
+                new CardAction(ActionTypes.PostBack, title:"Yes", value: "Yes"),
+                new CardAction(ActionTypes.PostBack, title:"No", value: "No")
             };
-            // Creating a hero card
-            var options = new PromptOptions()
+            List<Attachment> attachments = new List<Attachment>();
+            HeroCard herocard = new HeroCard(title: "🤔Is this statement correct?", buttons: cardActions);
+            attachments.Add(herocard.ToAttachment());
+
+            List<CardAction> suggestedcardactions = new List<CardAction>()
             {
-                Prompt = MessageFactory.Text("🤔Is this statement correct?"),
-                RetryPrompt = MessageFactory.Text("Oops, I'm afraid I don't speak that language! How about we try something else, or perhaps choose from one of the options I provided?"),
-                Choices = MiniQuizYesNo,
-                Style = ListStyle.HeroCard,
+                new CardAction(ActionTypes.PostBack, title: "Skip", value: "Skip"),
+            };
+            var opts = new PromptOptions
+            {
+                Prompt = new Activity
+                {
+                    Type = ActivityTypes.Message,
+                    SuggestedActions = new SuggestedActions(actions: suggestedcardactions),
+                    Attachments = attachments
+                },
             };
 
-            return await stepContext.PromptAsync(nameof(ChoicePrompt), options, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), opts);
         }
 
         private async Task<DialogTurnResult> LastAnswer(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-           // _logger.LogInformation("MainDialog.LastAnswer");
-
-            // Giving response for first questions' answer (i.e. correct or not)
-            if (((FoundChoice)stepContext.Result).Value == "Yes") 
+            if (((String)stepContext.Result) == "Yes")
             {
-                // Wrong Answer
-                //MiniQuiz_WrongMsg(stepContext, cancellationToken);
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_WrongMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
             }
-            else
+            else if (((String)stepContext.Result) == "Skip")
             {
-                // Correct Answer
-                //MiniQuiz_CorrectMsg(stepContext, cancellationToken);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(nameof(MainDialog), null, cancellationToken);
             }
-
-            await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            else if (((String)stepContext.Result) == "No")
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuiz_CorrectMsg()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(MiniQuizAnswerGeneration()), cancellationToken);
+            }
+            else if (!IsGoBack)
+            {
+                randomized--;
+                IsGoBack = true;
+                stepContext.ActiveDialog.State["stepIndex"] = (int)stepContext.ActiveDialog.State["stepIndex"] - 2;
+                return await stepContext.NextAsync();
+            }
 
             // print out score
             if (score <= 3 )
             {
                 // correct more than half
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +" out of 6. You can definitely do better! Go learn more about sexual harassment and try again later to see if you get a higher score!"), cancellationToken);
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Opps, your score is "+ score +" out of 6. You can definitely do better! Let's learn more about sexual harassment using Me2 and try again later to see if you get a higher score!"), cancellationToken);
 
             }
             else if (score <= 5)
